@@ -1,7 +1,17 @@
+import FamilyCard from "@/components/FamilyCard";
+import NavBar from "@/components/NavBar";
+import SideBar from "@/components/SideBar";
+
 export default function Home() {
     return (
-        <h1 className="text-3xl font-bold text-blue-600">
-            Hello from WebStorm 👋
-        </h1>
+        <div>
+            <h1 className="text-3xl font-bold">
+                Family View
+            </h1>
+            <NavBar />
+            <SideBar />
+            <FamilyCard/>
+
+        </div>
     );
 }
