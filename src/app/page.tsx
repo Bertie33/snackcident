@@ -1,16 +1,18 @@
 import FamilyCard from "@/components/FamilyCard";
-import NavBar from "@/components/NavBar";
-import SideBar from "@/components/SideBar";
+import NavBar from "@/components/FoodBar";
+import {Navigation} from "@/components/Navigation";
+import Link from "next/link";
 
 export default function Home() {
     return (
-        <div>
-            <h1 className="text-3xl font-bold">
-                Family View
-            </h1>
-            <NavBar />
-            <SideBar />
+        <div className="flex flex-wrap">
+            <div className="flex-col">
+                <Navigation/>
+                <p className="p-3">...</p>
+                <NavBar/>
+            </div>
             <FamilyCard/>
+
 
         </div>
     );
