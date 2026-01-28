@@ -1,28 +1,37 @@
 import {Button} from "@/components/ui/button";
-import { ArrowLeftIcon } from "lucide-react"
-import { ArrowRightIcon } from "lucide-react"
+import {ArrowLeftIcon} from "lucide-react"
+import {ArrowRightIcon} from "lucide-react"
+import {Trash} from "lucide-react"
 import {Progress} from "@/components/ui/progress";
+import {AddingFoodToUser} from "@/components/AddingFoodToUser";
 
 export default function FamilyCard() {
     return (
-        <div className="flex-wrap p-5 bg-stone-600 bg-contain w-md">
-            <div className="flex flex-wrap">
-                <h1 className=" text-red-400 p-2">Name Here</h1>
-                <Button variant="outline">Add +</Button>
+        <div className="max-w-sm rounded overflow-hidden shadow-lg px-10 py-10">
+            <div className="">
+                <div className="flex">
+                    <h1 className="font-bold text-xl m-2 mr-10">Name Here</h1>
+                    <AddingFoodToUser/>
+                </div>
+                <div className="flex flex-wrap p-3">
+                    <Button variant="outline" size="icon" className="rounded-full">
+                        <ArrowLeftIcon/>
+                    </Button>
+                    <p className="p-2">Day of the Week</p>
+                    <Button variant="outline" size="icon" className="rounded-full">
+                        <ArrowRightIcon/>
+                    </Button>
+
+                </div>
             </div>
-            <div className="flex flex-wrap p-3">
-                <Button variant="outline" size="icon" className="rounded-full">
-                    <ArrowLeftIcon />
-                </Button>
-                <p className="p-2">Day of the Week</p>
-                <Button variant="outline" size="icon" className="rounded-full">
-                    <ArrowRightIcon />
-                </Button>
+            <p>Calories Left</p>
+            <Progress value={33}/>
+            <div className="p-2 flex ">
+                <p className="p-2">Item of food</p>
+                <p className="p-2">100 kcal</p>
+                <Trash/>
             </div>
 
-            <p>Number Bar</p>
-            <Progress value={33} />
-            <p>Items of food / Calories of food</p>
         </div>
 
     )

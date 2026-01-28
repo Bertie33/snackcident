@@ -1,41 +1,35 @@
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+
 import {Button} from "@/components/ui/button";
+import {Card, CardContent} from "@/components/ui/card"
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from "@/components/ui/collapsible"
+import FoodBarContent from "@/components/FoodBarContent";
 
 
-export default function SideBar() {
+export default function FoodBar() {
     return (
+
         <div>
-            <Select>
-                <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Drinks" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="dr-pepper">Dr Pepper</SelectItem>
-                </SelectContent>
-            </Select>
-            <Select>
-                <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Ingredients" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="tomato">tomato</SelectItem>
-                </SelectContent>
-            </Select>
-            <Select>
-                <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Meals" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="mushroom risotto">mushroom risotto</SelectItem>
-                </SelectContent>
-            </Select>
-            <Button variant="outline">Add +</Button>
+            <Card className="mx-auto w-full max-w-sm">
+                <CardContent>
+                    <Collapsible className="data-[state=open]:bg-muted rounded-md">
+                        <CollapsibleTrigger asChild>
+                            <Button variant="ghost" className="group w-full">
+                                Food Database
+                            </Button>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className="flex flex-col items-start gap-2 p-2.5 pt-0 text-sm">
+                            <div>
+                                <FoodBarContent/>
+                            </div>
+                        </CollapsibleContent>
+                    </Collapsible>
+                </CardContent>
+            </Card>
+
         </div>
 
     )
