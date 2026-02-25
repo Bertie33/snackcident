@@ -12,9 +12,9 @@ import {
 import {Label} from "@/components/ui/label"
 import {Input} from "@/components/ui/input"
 import {SearchIcon} from "lucide-react"
-import {AddNewIngredient} from "@/components/AddNewIngredient";
-import {AddNewDrink} from "@/components/AddNewDrink";
-import {AddNewMeal} from "@/components/AddNewMeal";
+import {AddNewIngredient} from "@/components/food-database/new-items/AddNewIngredient";
+import {AddNewDrink} from "@/components/food-database/new-items/AddNewDrink";
+import {AddNewMeal} from "@/components/food-database/new-items/AddNewMeal";
 
 export function AddNewFoodToDB() {
     return (

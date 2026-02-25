@@ -1,5 +1,3 @@
-"use client"
-
 import {Button} from "@/components/ui/button"
 import {
     Dialog,
@@ -11,39 +9,34 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
-import {MealComboBox} from "@/components/MealComboBox";
 
 
-export function AddNewMeal() {
+export function AddNewIngredient() {
     return (
         <Dialog>
             <form>
                 <DialogTrigger asChild>
-                    <Button variant="outline">Add New Meal</Button>
+                    <Button variant="outline">Add New Ingredient</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Add New Meal</DialogTitle>
+                        <DialogTitle>Add New Ingredient</DialogTitle>
                     </DialogHeader>
                     <div className="grid gap-4">
                         <div className="grid gap-3">
-                            <Label htmlFor="item-1">Meal: </Label>
-                            <Input id="ingredient-1" name="drink" defaultValue=""/>
+                            <Label htmlFor="item-1">Ingredient: </Label>
+                            <Input id="ingredient-1" name="name" defaultValue=""/>
                         </div>
                         <div className="grid gap-3">
-                            <Label htmlFor="quantity-1">Ingredients</Label>
-                            <div className="sm:max-w-[425px]">
-                                <MealComboBox/>
-                            </div>
+                            <Label htmlFor="unit-1">Unit: </Label>
+                            <Input id="unit-1" name="unit" defaultValue=""/>
                         </div>
                         <div className="grid gap-3">
-                            <Label htmlFor="servings-1">Serves</Label>
-                            <Input id="servings-1" name="servings" defaultValue=""/>
+                            <Label htmlFor="calories-1">Calories per 100 g/ml</Label>
+                            <Input id="calories-1" name="calories" defaultValue=""/>
                         </div>
-
                     </div>
                     <DialogFooter>
                         <Button type="submit">Add</Button>

@@ -5,7 +5,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import {AddNewFoodToDB} from "@/components/AddNewFoodToDB";
+import {AddNewFoodToDB} from "@/components/food-database/AddNewFoodToDB";
 
 export default function FoodBarContent() {
     return (

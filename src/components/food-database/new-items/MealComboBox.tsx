@@ -8,11 +8,7 @@ import {
     ComboboxItem,
     ComboboxList,
 } from "@/components/ui/combobox"
-
-type Ingredient = {
-    label: string
-    value: string
-}
+import {Ingredient} from "@/components/food-database/new-items/types";
 
 const ingredient: Ingredient[] = [
     {label: "Tomato", value: "tomato"},

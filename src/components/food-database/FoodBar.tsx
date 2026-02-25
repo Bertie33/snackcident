@@ -6,7 +6,7 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import FoodBarContent from "@/components/FoodBarContent";
+import FoodBarContent from "@/components/food-database/FoodBarContent";
 
 
 export default function FoodBar() {

@@ -3,7 +3,7 @@ import {ArrowLeftIcon} from "lucide-react"
 import {ArrowRightIcon} from "lucide-react"
 import {Trash} from "lucide-react"
 import {Progress} from "@/components/ui/progress";
-import {AddingFoodToUser} from "@/components/AddingFoodToUser";
+import {AddingFoodToUser} from "@/components/member-section/AddingFoodToUser";
 
 export default function FamilyCard() {
     return (
