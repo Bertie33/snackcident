@@ -22,10 +22,10 @@ export function AddNewDrink() {
 
     const [item,setItem] = useState({
         name:"",
-        cals:""
+        calories:""
     })
 
-    const handleChange = (e) => {
+    const handleChange = (e:any) => {
         const { name, value } = e.target;
 
         setItem((prev) => ({
@@ -39,10 +39,10 @@ export function AddNewDrink() {
         addDrink({
             id: uuid(),
             name: item.name,
-            calories: item.cals,
+            calories: item.calories,
         });
 
-        setItem({ name: "", cals: "" });
+        setItem({ name: "", calories: "" });
     };
 
 
@@ -69,7 +69,7 @@ export function AddNewDrink() {
                     <DialogFooter>
                         <Button type="submit">Add</Button>
                         <DialogClose asChild>
-                            <Button variant="outline">Cancel</Button>
+                            <Button variant="outline">Close</Button>
                         </DialogClose>
                     </DialogFooter>
                     </form>

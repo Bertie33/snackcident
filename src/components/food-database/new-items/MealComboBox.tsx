@@ -30,8 +30,10 @@ export function MealComboBox() {
                         <ComboboxItem key={ingredient.value} value={ingredient}>
                             {ingredient.label}
                         </ComboboxItem>
+
                     )}
                 </ComboboxList>
+
             </ComboboxContent>
         </Combobox>
     )
