@@ -91,4 +91,4 @@ export function AddNewMeal() {
             </form>
         </Dialog>
     )
-}
+}}

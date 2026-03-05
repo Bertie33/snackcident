@@ -20,19 +20,26 @@ import {
 } from "@/components/ui/select"
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
-import {useFood} from "@/contexts/FoodProvider";
+import {useFood, useFoodContext} from "@/contexts/FoodProvider";
 import {useState} from "react";
 import {v4 as uuid} from "uuid";
+import {Ingredient, Unit} from "@/models/models"
 
 
 export function AddNewIngredient() {
 
-    const {addIngredient} = useFood();
+    let context = useFoodContext();
 
-    const [item, setItem] = useState({
+    interface FormIngredient {
+        name: string
+        unit: Unit
+        calories: number
+    }
+
+    const [item, setItem] = useState<FormIngredient>({
         name: "",
-        unit: "",
-        calories: ""
+        unit: "g",
+        calories: 0
     });
 
     const handleChange = (e:any) => {
@@ -48,14 +55,15 @@ export function AddNewIngredient() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        addIngredient({
+        context.addIngredient({
             id: uuid(),
             name: item.name,
             unit: item.unit,
-            calories: item.calories,
+            caloriesPer100: Number(item.calories),
+            deleted: false,
         });
 
-        setItem({name: "", unit: "", calories: ""});
+        setItem({name: "", unit: "g", calories: 0});
     };
 
 
@@ -86,7 +94,7 @@ export function AddNewIngredient() {
                             <Label htmlFor="unit">Unit</Label>
                             <Select
                                 value={item.unit}
-                                onValueChange={(value) =>
+                                onValueChange={(value:Unit) =>
                                     setItem((prev) => ({...prev, unit: value}))
                                 }
                             >
@@ -107,6 +115,8 @@ export function AddNewIngredient() {
                             <Input
                                 id="calories"
                                 name="calories"
+                                inputMode="numeric"
+                                type="number"
                                 value={item.calories}
                                 onChange={handleChange}
                             />

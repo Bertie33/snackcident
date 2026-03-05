@@ -11,7 +11,7 @@ const initialFoodState: FoodState = {
 }
 
 
-const FoodContext = createContext<FoodContextType | undefined>(
+export const FoodContext = createContext<FoodContextType | undefined>(
     undefined
 );
 
@@ -20,6 +20,10 @@ const STORAGE_KEYS = {
     meals: "calorie-tracker-meals",
     ingredients: "calorie-tracker-ingredients",
 };
+
+export function useFoodContext() {
+    return useContext(FoodContext)!;
+}
 
 function loadInitialState(): FoodState {
     if (typeof window === "undefined") return initialFoodState

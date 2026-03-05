@@ -1,4 +1,4 @@
-
+"use client";
 import {Button} from "@/components/ui/button";
 import {Card, CardContent} from "@/components/ui/card"
 import {
@@ -7,9 +7,12 @@ import {
     CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 import FoodBarContent from "@/components/food-database/FoodBarContent";
+import {FoodContext, useFoodContext} from "@/contexts/FoodProvider";
 
 
 export default function FoodBar() {
+
+
     return (
 
         <div>

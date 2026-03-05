@@ -1,10 +1,11 @@
-type Unit = "g" | "ml"
+export type Unit = "g" | "ml"
 
 export interface Ingredient {
     id: string
     name: string
     unit: Unit
     caloriesPer100: number
+    deleted: boolean
 }
 
 export type MealIngredient = {

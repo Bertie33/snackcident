@@ -11,14 +11,14 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {useFood} from "@/contexts/FoodProvider";
+import {useFood, useFoodContext} from "@/contexts/FoodProvider";
 import {useState} from "react";
 import { v4 as uuid } from "uuid";
 
 
 export function AddNewDrink() {
 
-    const { addDrink } = useFood();
+    let context = useFoodContext();
 
     const [item,setItem] = useState({
         name:"",
@@ -36,10 +36,10 @@ export function AddNewDrink() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        addDrink({
+        context.addDrink({
             id: uuid(),
             name: item.name,
-            calories: item.calories,
+            calories: Number(item.calories),
         });
 
         setItem({ name: "", calories: "" });
@@ -63,7 +63,7 @@ export function AddNewDrink() {
                         </div>
                         <div className="grid gap-3">
                             <Label htmlFor="calories-1">Calories per 100ml</Label>
-                            <Input id="calories-1" name="cals" defaultValue="" onChange={handleChange} />
+                            <Input id="calories-1" inputMode="numeric" name="calories" defaultValue="" type="number" onChange={handleChange} />
                         </div>
                     </div>
                     <DialogFooter>
