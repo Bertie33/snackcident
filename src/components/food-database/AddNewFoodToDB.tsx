@@ -33,7 +33,6 @@ export function AddNewFoodToDB() {
                     <div className="grid gap-4">
                         <AddNewIngredient/>
                         <AddNewDrink/>
-                        <AddNewMeal/>
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>

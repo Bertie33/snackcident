@@ -15,7 +15,7 @@ export default function FoodBar() {
 
     return (
 
-        <div>
+        <div className="w-full">
             <Card className="mx-auto w-full max-w-sm">
                 <CardContent>
                     <Collapsible className="data-[state=open]:bg-muted rounded-md">

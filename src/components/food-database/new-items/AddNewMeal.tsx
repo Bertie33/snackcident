@@ -48,7 +48,6 @@ export function AddNewMeal() {
             id: uuid(),
             name: item.name,
             portions: item.portions,
-            calories: item.calories,
             ingredients: item.ingredients,
         });
 
