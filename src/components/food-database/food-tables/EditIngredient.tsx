@@ -72,7 +72,7 @@ export default function EditIngredient({id, close}: { id: string; close: () => v
         <>
             <DialogContent className="sm:max-w-[425px]">
                 <form onSubmit={handleSubmit}>
-                    <DialogHeader>
+                    <DialogHeader className="m-10">
                         <DialogTitle>Edit {item.name}</DialogTitle>
                     </DialogHeader>
 

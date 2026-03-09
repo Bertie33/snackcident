@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {useFood, useFoodContext} from "@/contexts/FoodProvider";
-import {useState} from "react";
+import React, {useState} from "react";
 import { v4 as uuid } from "uuid";
 
 
@@ -25,7 +25,7 @@ export function AddNewDrink() {
         calories:""
     })
 
-    const handleChange = (e:any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
         setItem((prev) => ({
@@ -59,11 +59,11 @@ export function AddNewDrink() {
                     <div className="grid gap-4">
                         <div className="grid gap-3">
                             <Label htmlFor="item-1">Drink: </Label>
-                            <Input id="drink-1"  defaultValue="" name="name" onChange={handleChange} />
+                            <Input id="drink-1"  value={item.name} name="name" onChange={handleChange} />
                         </div>
                         <div className="grid gap-3">
                             <Label htmlFor="calories-1">Calories per 100ml</Label>
-                            <Input id="calories-1" inputMode="numeric" name="calories" defaultValue="" type="number" onChange={handleChange} />
+                            <Input id="calories-1" inputMode="numeric" name="calories" value={item.calories} type="number" onChange={handleChange} />
                         </div>
                     </div>
                     <DialogFooter>

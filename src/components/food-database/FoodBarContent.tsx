@@ -1,6 +1,6 @@
 import {AddNewFoodToDB} from "@/components/food-database/AddNewFoodToDB";
 import {useFoodContext} from "@/contexts/FoodProvider";
-import {IngredientBarTable} from "@/components/food-database/IngredientBarTable";
+import {IngredientBarTable} from "@/components/food-database/food-tables/IngredientBarTable";
 import {
     Card,
     CardContent,
@@ -14,6 +14,7 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
+import {DrinkBarTable} from "@/components/food-database/food-tables/DrinkBarTable";
 
 export default function FoodBarContent() {
 
@@ -44,6 +45,9 @@ export default function FoodBarContent() {
                         <CardHeader>
                             <CardTitle>Drinks</CardTitle>
                         </CardHeader>
+                        <CardContent>
+                            <DrinkBarTable/>
+                        </CardContent>
                     </Card>
                 </TabsContent>
 
