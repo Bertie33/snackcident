@@ -3,18 +3,14 @@ import {
     Dialog,
     DialogClose,
     DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import {Label} from "@/components/ui/label"
 import {Input} from "@/components/ui/input"
-import {SearchIcon} from "lucide-react"
 import {AddNewIngredient} from "@/components/food-database/new-items/AddNewIngredient";
 import {AddNewDrink} from "@/components/food-database/new-items/AddNewDrink";
-import {AddNewMeal} from "@/components/food-database/new-items/AddNewMeal";
 
 export function AddNewFoodToDB() {
     return (

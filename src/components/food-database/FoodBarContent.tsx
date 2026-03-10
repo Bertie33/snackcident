@@ -1,10 +1,8 @@
 import {AddNewFoodToDB} from "@/components/food-database/AddNewFoodToDB";
-import {useFoodContext} from "@/contexts/FoodProvider";
 import {IngredientBarTable} from "@/components/food-database/food-tables/IngredientBarTable";
 import {
     Card,
     CardContent,
-    CardDescription,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
@@ -17,8 +15,6 @@ import {
 import {DrinkBarTable} from "@/components/food-database/food-tables/DrinkBarTable";
 
 export default function FoodBarContent() {
-
-    let context = useFoodContext();
 
     return (
         <div className="w-full">
