@@ -52,6 +52,8 @@ export default function FoodBarContent() {
                         <CardHeader>
                             <CardTitle>Meals</CardTitle>
                         </CardHeader>
+                        <CardContent>
+                        </CardContent>
                     </Card>
                 </TabsContent>
             </Tabs>

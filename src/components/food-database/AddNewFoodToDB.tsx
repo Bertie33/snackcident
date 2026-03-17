@@ -8,9 +8,9 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import {Input} from "@/components/ui/input"
 import {AddNewIngredient} from "@/components/food-database/new-items/AddNewIngredient";
 import {AddNewDrink} from "@/components/food-database/new-items/AddNewDrink";
+import {AddNewMeal} from "@/components/food-database/new-items/AddNewMeal";
 
 export function AddNewFoodToDB() {
     return (
@@ -23,12 +23,10 @@ export function AddNewFoodToDB() {
                     <DialogHeader>
                         <DialogTitle>Add New</DialogTitle>
                     </DialogHeader>
-                    <div className="sm:max-w-[425px]">
-                        <Input placeholder="Search"/>
-                    </div>
                     <div className="grid gap-4">
                         <AddNewIngredient/>
                         <AddNewDrink/>
+                        <AddNewMeal/>
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>

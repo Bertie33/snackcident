@@ -12,6 +12,7 @@ import {SearchBar} from "@/components/food-database/food-tables/SearchBar";
 import {PaginationControls} from "@/components/food-database/food-tables/PaginationControls";
 
 
+
 interface TableItem{
     id: string;
     name: string;
