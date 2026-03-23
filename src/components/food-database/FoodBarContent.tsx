@@ -13,6 +13,7 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs"
 import {DrinkBarTable} from "@/components/food-database/food-tables/DrinkBarTable";
+import {MealBarTable} from "@/components/food-database/food-tables/MealBarTable";
 
 export default function FoodBarContent() {
 
@@ -53,6 +54,7 @@ export default function FoodBarContent() {
                             <CardTitle>Meals</CardTitle>
                         </CardHeader>
                         <CardContent>
+                            <MealBarTable/>
                         </CardContent>
                     </Card>
                 </TabsContent>

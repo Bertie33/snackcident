@@ -11,8 +11,6 @@ import {Dialog} from "@/components/ui/dialog";
 import {SearchBar} from "@/components/food-database/food-tables/SearchBar";
 import {PaginationControls} from "@/components/food-database/food-tables/PaginationControls";
 
-
-
 interface TableItem{
     id: string;
     name: string;
@@ -22,9 +20,10 @@ interface BaseBarTableProps<T extends TableItem>{
     items: T[];
     renderRow: (item: T, onEdit: (id:string) => void) => React.ReactNode;
     editComponent: (id: string, close: () => void) => React.ReactNode;
+    headers?: string[];
 }
 
-export function BaseBarTable<T extends TableItem>({ items, renderRow, editComponent }: BaseBarTableProps<T>) {
+export function BaseBarTable<T extends TableItem>({ items, renderRow, editComponent, headers: columnHeaders }: BaseBarTableProps<T>) {
     const [search, setSearch] = useState("");
     const [startIndex, setStartIndex] = useState(0);
     const [endIndex, setEndIndex] = useState(5);
@@ -43,9 +42,11 @@ export function BaseBarTable<T extends TableItem>({ items, renderRow, editCompon
                     <Table className="w-full min-w-[600px]">
                         <TableHeader className="sticky top-0 z-10 bg-background">
                             <TableRow>
-                                <TableHead>Item</TableHead>
-                                <TableHead>Calories</TableHead>
-                                <TableHead className="w-[80px] text-right">Actions</TableHead>
+                                {(columnHeaders || ["Item", "Calories", "Actions"]).map((header, i, arr) => (
+                                    <TableHead key={i} className={i === arr.length - 1 ? "w-[80px] text-right" : ""}>
+                                        {header}
+                                    </TableHead>
+                                ))}
                             </TableRow>
                         </TableHeader>
                         <TableBody>

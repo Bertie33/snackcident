@@ -68,7 +68,7 @@ export function AddNewIngredient() {
 
 
     return (
-        <Dialog>
+        <Dialog key="AddIngredientDialog"  modal={false}>
             <DialogTrigger asChild>
                 <Button variant="outline">Add New Ingredient</Button>
             </DialogTrigger>

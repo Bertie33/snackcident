@@ -13,11 +13,12 @@ import {
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {MealComboBox} from "@/components/food-database/new-items/MealComboBox";
-import {AddNewIngredient} from "@/components/food-database/new-items/AddNewIngredient";
 import {useFood, useFoodContext} from "@/contexts/FoodProvider";
 import {useState} from "react";
 import {v4 as uuid} from "uuid";
 import {MealIngredient} from "@/models/models";
+import {calculateMealCaloriesPerPortion} from "@/utils/calculateCalories";
+import {AddNewIngredient} from "@/components/food-database/new-items/AddNewIngredient";
 
 
 export function AddNewMeal() {
@@ -31,7 +32,6 @@ export function AddNewMeal() {
     };
 
     const [item, setItem] = useState(initialState);
-
     const [isOpen, setIsOpen] = useState(false);
 
     const handleChange = (e: any) => {
@@ -44,14 +44,15 @@ export function AddNewMeal() {
     };
 
     const handleAddIngredient = (ingredientId: string) => {
-        if (item.ingredients.some(i => i.ingredientId === ingredientId)) {
-            console.log("Ingredient already exists");
-            return;
-        }
-
         setItem(prev => ({
             ...prev,
-            ingredients: [...prev.ingredients, { ingredientId, amount: 100 }]
+            ingredients: [
+                ...prev.ingredients,
+                {
+                    ingredientId,
+                    amount: 0,
+                }
+            ]
         }));
     };
 
@@ -74,10 +75,17 @@ export function AddNewMeal() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
+        const caloriesPerPortion = calculateMealCaloriesPerPortion(
+            item.ingredients,
+            context.state.ingredients,
+            item.portions
+        );
+
         context.addMeal({
             id: uuid(),
             name: item.name,
             portions: item.portions,
+            caloriesPerPortion,
             ingredients: item.ingredients,
         });
 
@@ -87,7 +95,7 @@ export function AddNewMeal() {
     };
 
     return (
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <Dialog key="AddMealDialog" open={isOpen} onOpenChange={setIsOpen}>
 
                 <DialogTrigger asChild>
                     <Button variant="outline" onClick={() => setIsOpen(true)}>Add New Meal</Button>
@@ -163,8 +171,8 @@ export function AddNewMeal() {
                         <div onClick={(e) => e.stopPropagation()}>
                             <MealComboBox onSelect={handleAddIngredient} />
                         </div>
+                        <AddNewIngredient/>
 
-                        <AddNewIngredient />
 
                         <div className="grid gap-3">
                             <Label>Serves</Label>
@@ -175,6 +183,19 @@ export function AddNewMeal() {
                                 onChange={handleChange}
                             />
                         </div>
+
+                        {item.portions > 0 && item.ingredients.length > 0 && (
+                            <div className="grid gap-3 p-3 bg-muted rounded-md">
+                                <Label>Calories per Portion</Label>
+                                <span className="text-2xl font-semibold">
+                                    {calculateMealCaloriesPerPortion(
+                                        item.ingredients,
+                                        context.state.ingredients,
+                                        item.portions
+                                    )} cal
+                                </span>
+                            </div>
+                        )}
                     </div>
 
                     <DialogFooter>
