@@ -49,7 +49,7 @@ export function AddNewDrink() {
     return (
         <Dialog>
                 <DialogTrigger asChild>
-                    <Button variant="outline">Add New Drink</Button>
+                    <Button >Add New Drink</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <form onSubmit={handleSubmit}>

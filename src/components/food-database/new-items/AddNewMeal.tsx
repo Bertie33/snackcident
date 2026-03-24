@@ -95,12 +95,14 @@ export function AddNewMeal() {
     };
 
     return (
-        <div>
-            <Dialog key="AddMealDialog" open={isOpen} onOpenChange={setIsOpen}>
+        <div >
+            <Dialog  open={isOpen} onOpenChange={setIsOpen}>
 
-                    <DialogTrigger asChild>
-                        <Button variant="outline" onClick={() => setIsOpen(true)}>Add New Meal</Button>
-                    </DialogTrigger>
+                <DialogTrigger asChild>
+                    <Button className="w-full" onClick={() => setIsOpen(true)}>
+                        Add New Meal
+                    </Button>
+                </DialogTrigger>
 
                     <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
