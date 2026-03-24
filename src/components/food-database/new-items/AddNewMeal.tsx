@@ -23,7 +23,6 @@ import {AddNewIngredient} from "@/components/food-database/new-items/AddNewIngre
 
 export function AddNewMeal() {
     const context = useFoodContext();
-
     const initialState = {
         name: "",
         portions: 0,
@@ -33,6 +32,7 @@ export function AddNewMeal() {
 
     const [item, setItem] = useState(initialState);
     const [isOpen, setIsOpen] = useState(false);
+    const [addIngredientOpen, setAddIngredientOpen] = useState(false);
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
@@ -95,120 +95,132 @@ export function AddNewMeal() {
     };
 
     return (
-        <Dialog key="AddMealDialog" open={isOpen} onOpenChange={setIsOpen}>
+        <div>
+            <Dialog key="AddMealDialog" open={isOpen} onOpenChange={setIsOpen}>
 
-                <DialogTrigger asChild>
-                    <Button variant="outline" onClick={() => setIsOpen(true)}>Add New Meal</Button>
-                </DialogTrigger>
+                    <DialogTrigger asChild>
+                        <Button variant="outline" onClick={() => setIsOpen(true)}>Add New Meal</Button>
+                    </DialogTrigger>
 
-                <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                        <DialogTitle>Add New Meal</DialogTitle>
-                    </DialogHeader>
-                    <form onSubmit={handleSubmit}>
-                    <div className="grid gap-4">
-                        <div className="grid gap-3">
-                            <Label>Meal:</Label>
-                            <Input
-                                name="name"
-                                value={item.name}
-                                onChange={handleChange}
-                            />
-                        </div>
-
-                        <div className="flex flex-col gap-3 max-h-40 overflow-y-auto border rounded-md p-2">
-                            {item.ingredients.length === 0 && (
-                                <span className="text-sm text-muted-foreground">
-                                    No ingredients added
-                                </span>
-                            )}
-
-                            {item.ingredients.map((mi) => {
-                                const details = context.state.ingredients.find(
-                                    i => String(i.id) === String(mi.ingredientId)
-                                );
-
-                                return (
-                                    <div
-                                        key={mi.ingredientId}
-                                        className="flex items-center gap-2 border-b pb-2 min-w-0"
-                                    >
-                                        <span className="flex-1 font-medium">
-                                            {details?.name}
-                                        </span>
-
-                                        <Input
-                                            type="number"
-                                            className="w-20"
-                                            value={mi.amount}
-                                            onChange={(e) =>
-                                                handleAmountChange(
-                                                    mi.ingredientId,
-                                                    Number(e.target.value)
-                                                )
-                                            }
-                                        />
-
-                                        <span className="text-sm text-muted-foreground">
-                                            {details?.unit}
-                                        </span>
-
-                                        <Button
-                                            type="button"
-                                            variant="ghost"
-                                            size="sm"
-                                            onClick={() =>
-                                                handleRemoveIngredient(mi.ingredientId)
-                                            }
-                                        >
-                                            Remove
-                                        </Button>
-                                    </div>
-                                );
-                            })}
-                        </div>
-
-                        <div onClick={(e) => e.stopPropagation()}>
-                            <MealComboBox onSelect={handleAddIngredient} />
-                        </div>
-                        <AddNewIngredient/>
-
-
-                        <div className="grid gap-3">
-                            <Label>Serves</Label>
-                            <Input
-                                type="number"
-                                name="portions"
-                                value={item.portions}
-                                onChange={handleChange}
-                            />
-                        </div>
-
-                        {item.portions > 0 && item.ingredients.length > 0 && (
-                            <div className="grid gap-3 p-3 bg-muted rounded-md">
-                                <Label>Calories per Portion</Label>
-                                <span className="text-2xl font-semibold">
-                                    {calculateMealCaloriesPerPortion(
-                                        item.ingredients,
-                                        context.state.ingredients,
-                                        item.portions
-                                    )} cal
-                                </span>
+                    <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                            <DialogTitle>Add New Meal</DialogTitle>
+                        </DialogHeader>
+                        <form onSubmit={handleSubmit}>
+                        <div className="grid gap-4">
+                            <div className="grid gap-3">
+                                <Label>Meal:</Label>
+                                <Input
+                                    name="name"
+                                    value={item.name}
+                                    onChange={handleChange}
+                                />
                             </div>
-                        )}
-                    </div>
 
-                    <DialogFooter>
-                        <Button type="submit">Add</Button>
+                            <div className="flex flex-col gap-3 max-h-40 overflow-y-auto border rounded-md p-2">
+                                {item.ingredients.length === 0 && (
+                                    <span className="text-sm text-muted-foreground">
+                                        No ingredients added
+                                    </span>
+                                )}
 
-                        <DialogClose asChild>
-                            <Button type="button" variant="outline">
-                                Close
+                                {item.ingredients.map((mi) => {
+                                    const details = context.state.ingredients.find(
+                                        i => String(i.id) === String(mi.ingredientId)
+                                    );
+
+                                    return (
+                                        <div
+                                            key={mi.ingredientId}
+                                            className="flex items-center gap-2 border-b pb-2 min-w-0"
+                                        >
+                                            <span className="flex-1 font-medium">
+                                                {details?.name}
+                                            </span>
+
+                                            <Input
+                                                type="number"
+                                                className="w-20"
+                                                value={mi.amount}
+                                                onChange={(e) =>
+                                                    handleAmountChange(
+                                                        mi.ingredientId,
+                                                        Number(e.target.value)
+                                                    )
+                                                }
+                                            />
+
+                                            <span className="text-sm text-muted-foreground">
+                                                {details?.unit}
+                                            </span>
+
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() =>
+                                                    handleRemoveIngredient(mi.ingredientId)
+                                                }
+                                            >
+                                                Remove
+                                            </Button>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            <div onClick={(e) => e.stopPropagation()}>
+                                <MealComboBox onSelect={handleAddIngredient} />
+                            </div>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => setAddIngredientOpen(true)}
+                            >
+                                Add New Ingredient
                             </Button>
-                        </DialogClose>
-                    </DialogFooter>
-                    </form>
-                </DialogContent>
-        </Dialog>
+
+
+                            <div className="grid gap-3">
+                                <Label>Serves</Label>
+                                <Input
+                                    type="number"
+                                    name="portions"
+                                    value={item.portions}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
+                            {item.portions > 0 && item.ingredients.length > 0 && (
+                                <div className="grid gap-3 p-3 bg-muted rounded-md">
+                                    <Label>Calories per Portion</Label>
+                                    <span className="text-2xl font-semibold">
+                                        {calculateMealCaloriesPerPortion(
+                                            item.ingredients,
+                                            context.state.ingredients,
+                                            item.portions
+                                        )} cal
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+
+                        <DialogFooter>
+                            <Button type="submit">Add</Button>
+
+                            <DialogClose asChild>
+                                <Button type="button" variant="outline">
+                                    Close
+                                </Button>
+                            </DialogClose>
+                        </DialogFooter>
+                        </form>
+                    </DialogContent>
+            </Dialog>
+            <AddNewIngredient
+                open={addIngredientOpen}
+                onClose={() => setAddIngredientOpen(false)}
+            />
+        </div>
     );
 }

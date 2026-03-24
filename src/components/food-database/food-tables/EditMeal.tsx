@@ -13,6 +13,7 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
 
     let {state} = useFoodContext();
     const {changeMeal} = useFood();
+    const [addIngredientOpen, setAddIngredientOpen] = useState(false);
 
     let item = state.meals.find((i) => i.id === id);
 
@@ -23,7 +24,7 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
     const [meal, setMeal] = useState({
         name: item.name,
         portions: item.portions,
-        ingredients: item.ingredients // Array of {ingredientId, amount}
+        ingredients: item.ingredients
     });
 
     const handleChange = (e: any) => {
@@ -84,123 +85,135 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
 
 
     return (
-        <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
-            <form onSubmit={handleSubmit}>
-                <DialogHeader>
-                    <DialogTitle>Edit {item.name}</DialogTitle>
-                </DialogHeader>
+        <div>
+            <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
+                <form onSubmit={handleSubmit}>
+                    <DialogHeader>
+                        <DialogTitle>Edit {item.name}</DialogTitle>
+                    </DialogHeader>
 
-                <div className="grid gap-4 py-4">
-                    <div className="grid gap-2">
-                        <Label htmlFor="name">Meal Name</Label>
-                        <Input
-                            id="name"
-                            name="name"
-                            value={meal.name}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    <div className="grid gap-2">
-                        <Label>Ingredients</Label>
-                        <div className="flex flex-col gap-2 max-h-48 overflow-y-auto border rounded-md p-3">
-                            {meal.ingredients.length === 0 && (
-                                <span className="text-sm text-muted-foreground">
-                                    No ingredients added
-                                </span>
-                            )}
-
-                            {meal.ingredients.map((mi) => {
-                                const details = state.ingredients.find(
-                                    i => String(i.id) === String(mi.ingredientId)
-                                );
-
-                                return (
-                                    <div
-                                        key={mi.ingredientId}
-                                        className="flex items-center gap-2 border-b pb-2 min-w-0"
-                                    >
-                                        <span className="flex-1 font-medium">
-                                            {details?.name}
-                                        </span>
-
-                                        <Input
-                                            type="number"
-                                            className="w-20"
-                                            value={mi.amount}
-                                            onChange={(e) =>
-                                                handleAmountChange(
-                                                    mi.ingredientId,
-                                                    Number(e.target.value)
-                                                )
-                                            }
-                                        />
-
-                                        <span className="text-sm text-muted-foreground">
-                                            {details?.unit}
-                                        </span>
-
-
-                                        <Button
-                                            type="button"
-                                            variant="ghost"
-                                            size="sm"
-                                            onClick={() =>
-                                                handleRemoveIngredient(mi.ingredientId)
-                                            }
-                                        >
-                                            Remove
-                                        </Button>
-
-                                    </div>
-                                );
-                            })}
+                    <div className="grid gap-4 py-4">
+                        <div className="grid gap-2">
+                            <Label htmlFor="name">Meal Name</Label>
+                            <Input
+                                id="name"
+                                name="name"
+                                value={meal.name}
+                                onChange={handleChange}
+                            />
                         </div>
-                    </div>
+
+                        <div className="grid gap-2">
+                            <Label>Ingredients</Label>
+                            <div className="flex flex-col gap-2 max-h-48 overflow-y-auto border rounded-md p-3">
+                                {meal.ingredients.length === 0 && (
+                                    <span className="text-sm text-muted-foreground">
+                                        No ingredients added
+                                    </span>
+                                )}
+
+                                {meal.ingredients.map((mi) => {
+                                    const details = state.ingredients.find(
+                                        i => String(i.id) === String(mi.ingredientId)
+                                    );
+
+                                    return (
+                                        <div
+                                            key={mi.ingredientId}
+                                            className="flex items-center gap-2 border-b pb-2 min-w-0"
+                                        >
+                                            <span className="flex-1 font-medium">
+                                                {details?.name}
+                                            </span>
+
+                                            <Input
+                                                type="number"
+                                                className="w-20"
+                                                value={mi.amount}
+                                                onChange={(e) =>
+                                                    handleAmountChange(
+                                                        mi.ingredientId,
+                                                        Number(e.target.value)
+                                                    )
+                                                }
+                                            />
+
+                                            <span className="text-sm text-muted-foreground">
+                                                {details?.unit}
+                                            </span>
 
 
-                    <div className="grid gap-2">
-                        <Label>Add Ingredient</Label>
-                        <MealComboBox onSelect={handleAddIngredient} />
-                    </div>
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() =>
+                                                    handleRemoveIngredient(mi.ingredientId)
+                                                }
+                                            >
+                                                Remove
+                                            </Button>
 
-
-                    <AddNewIngredient />
-
-                    <div className="grid gap-2">
-                        <Label htmlFor="portions">Portions</Label>
-                        <Input
-                            id="portions"
-                            type="number"
-                            name="portions"
-                            value={meal.portions}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    {meal.portions > 0 && meal.ingredients.length > 0 && (
-                        <div className="p-4 bg-muted rounded-md">
-                            <Label className="text-sm text-muted-foreground">Calories per Portion</Label>
-                            <div className="text-2xl font-semibold mt-1">
-                                {calculateMealCaloriesPerPortion(
-                                    meal.ingredients,
-                                    state.ingredients,
-                                    meal.portions
-                                )} cal
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
-                    )}
-                </div>
 
-                <DialogFooter>
-                    <Button type="submit">Save</Button>
-                    <DialogClose asChild>
-                        <Button type="button" variant="outline">
-                            Close
+
+                        <div className="grid gap-2">
+                            <Label>Add Ingredient</Label>
+                            <MealComboBox onSelect={handleAddIngredient} />
+                        </div>
+
+
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => setAddIngredientOpen(true)}
+                        >
+                            Add New Ingredient
                         </Button>
-                    </DialogClose>
-                </DialogFooter>
-            </form>
-        </DialogContent>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="portions">Portions</Label>
+                            <Input
+                                id="portions"
+                                type="number"
+                                name="portions"
+                                value={meal.portions}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        {meal.portions > 0 && meal.ingredients.length > 0 && (
+                            <div className="p-4 bg-muted rounded-md">
+                                <Label className="text-sm text-muted-foreground">Calories per Portion</Label>
+                                <div className="text-2xl font-semibold mt-1">
+                                    {calculateMealCaloriesPerPortion(
+                                        meal.ingredients,
+                                        state.ingredients,
+                                        meal.portions
+                                    )} cal
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    <DialogFooter>
+                        <Button type="submit">Save</Button>
+                        <DialogClose asChild>
+                            <Button type="button" variant="outline">
+                                Close
+                            </Button>
+                        </DialogClose>
+                    </DialogFooter>
+                </form>
+            </DialogContent>
+            <AddNewIngredient
+                open={addIngredientOpen}
+                onClose={() => setAddIngredientOpen(false)}
+            />
+        </div>
     )
 }

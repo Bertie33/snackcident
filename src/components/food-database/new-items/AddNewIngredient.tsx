@@ -13,7 +13,6 @@ import {
 import {
     Select,
     SelectContent,
-    SelectGroup,
     SelectItem,
     SelectTrigger,
     SelectValue,
@@ -23,34 +22,33 @@ import {Label} from "@/components/ui/label"
 import {useFood, useFoodContext} from "@/contexts/FoodProvider";
 import {useState} from "react";
 import {v4 as uuid} from "uuid";
-import {Ingredient, Unit} from "@/models/models"
+import { Unit} from "@/models/models"
 
 
-export function AddNewIngredient() {
+interface AddNewIngredientProps {
+    open: boolean;
+    onClose: () => void;
+}
 
+export function AddNewIngredient({ open, onClose }: AddNewIngredientProps) {
     let context = useFoodContext();
 
     interface FormIngredient {
-        name: string
-        unit: Unit
-        calories: number
+        name: string;
+        unit: Unit;
+        calories: number;
     }
 
     const [item, setItem] = useState<FormIngredient>({
         name: "",
         unit: "g",
-        calories: 0
+        calories: 0,
     });
 
-    const handleChange = (e:any) => {
-        const {name, value} = e.target;
-
-        setItem((prev) => ({
-                ...prev,
-                [name]: value
-            }
-        ));
-    }
+    const handleChange = (e: any) => {
+        const { name, value } = e.target;
+        setItem((prev) => ({ ...prev, [name]: value }));
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -63,16 +61,12 @@ export function AddNewIngredient() {
             deleted: false,
         });
 
-        setItem({name: "", unit: "g", calories: 0});
+        setItem({ name: "", unit: "g", calories: 0 });
+        onClose();
     };
 
-
     return (
-        <Dialog key="AddIngredientDialog"  modal={false}>
-            <DialogTrigger asChild>
-                <Button variant="outline">Add New Ingredient</Button>
-            </DialogTrigger>
-
+        <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
             <DialogContent className="sm:max-w-[425px]">
                 <form onSubmit={handleSubmit}>
                     <DialogHeader>
@@ -94,12 +88,12 @@ export function AddNewIngredient() {
                             <Label htmlFor="unit">Unit</Label>
                             <Select
                                 value={item.unit}
-                                onValueChange={(value:Unit) =>
-                                    setItem((prev) => ({...prev, unit: value}))
+                                onValueChange={(value: Unit) =>
+                                    setItem((prev) => ({ ...prev, unit: value }))
                                 }
                             >
                                 <SelectTrigger id="unit">
-                                    <SelectValue placeholder="Select unit"/>
+                                    <SelectValue placeholder="Select unit" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="g">g</SelectItem>
@@ -134,5 +128,5 @@ export function AddNewIngredient() {
                 </form>
             </DialogContent>
         </Dialog>
-    )
+    );
 }
