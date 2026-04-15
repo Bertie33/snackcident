@@ -1,6 +1,6 @@
 "use client";
 
-import { useFood, useFoodContext } from "@/contexts/FoodProvider";
+import {useFood} from "@/contexts/FoodProvider";
 import { useState } from "react";
 import {
     DialogClose,
@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 
 export default function EditDrink({id, close}: { id: string; close: () => void }) {
 
-    let {state} = useFoodContext();
+    let {state} = useFood();
     const {changeDrink} = useFood();
 
     let item = state.drinks.find((i) => i.id === id);

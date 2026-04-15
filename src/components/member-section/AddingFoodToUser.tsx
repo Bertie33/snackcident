@@ -26,16 +26,12 @@ export function AddingFoodToUser() {
                     </DialogHeader>
                     <div className="grid gap-4">
                         <div className="grid gap-3">
-                            <Label htmlFor="item-1">Item: </Label>
+                            <Label htmlFor="item-1">Food: </Label>
                             <Input id="food-1" name="food" defaultValue="" />
                         </div>
                         <div className="grid gap-3">
-                            <Label htmlFor="quantity-1">Quantity</Label>
+                            <Label htmlFor="quantity-1">Amount g/ml:</Label>
                             <Input id="quantity-1" name="quantity" defaultValue="" />
-                        </div>
-                        <div className="grid gap-3">
-                            <Label htmlFor="unit-1">Unit</Label>
-                            <Input id="unit-1" name="unit" defaultValue="" />
                         </div>
                     </div>
                     <DialogFooter>

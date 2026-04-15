@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select"
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
-import {useFood, useFoodContext} from "@/contexts/FoodProvider";
+import {useFood} from "@/contexts/FoodProvider";
 import {useState} from "react";
 import {v4 as uuid} from "uuid";
 import { Unit} from "@/models/models"
@@ -31,7 +31,7 @@ interface AddNewIngredientProps {
 }
 
 export function AddNewIngredient({ open, onClose }: AddNewIngredientProps) {
-    let context = useFoodContext();
+    let context = useFood();
 
     interface FormIngredient {
         name: string;

@@ -30,11 +30,7 @@ export default function RootLayout({
       >
           <Navigation/>
         {children}
-
-
       </body>
-
-
     </html>
   );
 }

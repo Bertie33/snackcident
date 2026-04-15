@@ -1,5 +1,5 @@
 import * as React from "react"
-import {useFoodContext} from "@/contexts/FoodProvider";
+import {useFood} from "@/contexts/FoodProvider";
 import {Input} from "@/components/ui/input";
 
 interface MealComboBoxProps {
@@ -7,7 +7,7 @@ interface MealComboBoxProps {
 }
 
 export function MealComboBox({ onSelect }: MealComboBoxProps) {
-    const { state } = useFoodContext();
+    const { state } = useFood();
     const [searchValue, setSearchValue] = React.useState("");
     const [isOpen, setIsOpen] = React.useState(false);
     const wrapperRef = React.useRef<HTMLDivElement>(null);

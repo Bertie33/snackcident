@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {useFood, useFoodContext} from "@/contexts/FoodProvider";
+import {useFood} from "@/contexts/FoodProvider";
 import {DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
@@ -11,7 +11,7 @@ import {AddNewIngredient} from "@/components/food-database/new-items/AddNewIngre
 
 export default function EditMeal({id, close}: { id: string; close: () => void }) {
 
-    let {state} = useFoodContext();
+    let {state} = useFood();
     const {changeMeal} = useFood();
     const [addIngredientOpen, setAddIngredientOpen] = useState(false);
 

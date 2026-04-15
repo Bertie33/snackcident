@@ -1,11 +1,11 @@
-import {useFood, useFoodContext} from "@/contexts/FoodProvider";
+import {useFood} from "@/contexts/FoodProvider";
 import {BaseBarTable} from "@/components/food-database/food-tables/BaseBarTable";
 import EditIngredient from "@/components/food-database/food-tables/EditIngredient";
 import {TableCell, TableRow} from "@/components/ui/table";
 import {ActionDropdown} from "@/components/food-database/food-tables/ActionDropdown";
 
 export function IngredientBarTable() {
-    const { state } = useFoodContext();
+    const { state } = useFood();
     const { removeIngredient } = useFood();
     const items = state.ingredients.filter((i) => !i.deleted);
 

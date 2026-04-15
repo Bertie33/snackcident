@@ -21,9 +21,7 @@ const STORAGE_KEYS = {
     ingredients: "calorie-tracker-ingredients",
 };
 
-export function useFoodContext() {
-    return useContext(FoodContext)!;
-}
+
 
 function loadInitialState(): FoodState {
     if (typeof window === "undefined") return initialFoodState
@@ -100,7 +98,7 @@ export function FoodProvider({ children }: { children: ReactNode }) {
         })
     }
 
-    const changeIngredient = (id: string, updates: Partial<Drink>) => {
+    const changeIngredient = (id: string, updates: Partial<Ingredient>) => {
         dispatch({
             type: "CHANGE_INGREDIENT",
             payload: { id, updates },
@@ -121,7 +119,7 @@ export function FoodProvider({ children }: { children: ReactNode }) {
         })
     }
 
-    const changeMeal = (id: string, updates: Partial<Drink>) => {
+    const changeMeal = (id: string, updates: Partial<Meal>) => {
         dispatch({
             type: "CHANGE_MEAL",
             payload: { id, updates },

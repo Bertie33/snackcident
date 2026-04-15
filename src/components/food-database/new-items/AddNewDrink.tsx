@@ -11,14 +11,14 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {useFood, useFoodContext} from "@/contexts/FoodProvider";
+import {useFood} from "@/contexts/FoodProvider";
 import React, {useState} from "react";
 import { v4 as uuid } from "uuid";
 
 
 export function AddNewDrink() {
 
-    let context = useFoodContext();
+    let context = useFood();
 
     const [item,setItem] = useState({
         name:"",

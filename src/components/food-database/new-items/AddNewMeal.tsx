@@ -13,7 +13,7 @@ import {
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {MealComboBox} from "@/components/food-database/new-items/MealComboBox";
-import {useFood, useFoodContext} from "@/contexts/FoodProvider";
+import {useFood} from "@/contexts/FoodProvider";
 import {useState} from "react";
 import {v4 as uuid} from "uuid";
 import {MealIngredient} from "@/models/models";
@@ -22,7 +22,7 @@ import {AddNewIngredient} from "@/components/food-database/new-items/AddNewIngre
 
 
 export function AddNewMeal() {
-    const context = useFoodContext();
+    const context = useFood();
     const initialState = {
         name: "",
         portions: 0,

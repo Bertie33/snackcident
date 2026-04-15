@@ -1,6 +1,7 @@
 export type Unit = "g" | "ml"
 
-export interface Ingredient {
+
+export type Ingredient ={
     id: string
     name: string
     unit: Unit
@@ -13,7 +14,7 @@ export type MealIngredient = {
     amount: number
 }
 
-export interface Meal {
+export type Meal ={
     id: string
     name: string
     portions: number
@@ -21,7 +22,7 @@ export interface Meal {
     ingredients: MealIngredient[]
 }
 
-export interface Drink {
+export type Drink ={
     id: string
     name: string
     calories: number

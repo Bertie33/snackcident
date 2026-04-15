@@ -83,18 +83,6 @@ export default function FoodReducer(state: FoodState, action: FoodAction): FoodS
                 ),
             }
 
-        // case "ADD_INGREDIENT_TO_MEAL":
-        //     return {
-        //     }
-        //
-        // case "CHANGE_MEAL_INGREDIENT":
-        //     return {
-        //     }
-        //
-        // case "REMOVE_INGREDIENT_FROM_MEAL":
-        //     return {
-        //     }
-
 
         default:
             return state;

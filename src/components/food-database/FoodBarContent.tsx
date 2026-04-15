@@ -18,8 +18,8 @@ import {MealBarTable} from "@/components/food-database/food-tables/MealBarTable"
 export default function FoodBarContent() {
 
     return (
-        <div className="w-full">
-            <Tabs defaultValue="ingredients" className="flex w-full flex-col">
+        <div className="w-full max-w-[300px] mx-auto">
+            <Tabs defaultValue="ingredients" className="flex flex-col w-full max-w-2xl mx-auto">
                 <TabsList className="w-fit">
                     <TabsTrigger value="ingredients">Ingredients</TabsTrigger>
                     <TabsTrigger value="drinks">Drinks</TabsTrigger>
