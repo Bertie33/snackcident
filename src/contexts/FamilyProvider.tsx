@@ -77,6 +77,10 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
         })
     }
 
+    const changeFamilyName = (name:string) => {
+        dispatch({type: "SET_FAMILY_NAME", payload:name})
+    }
+
 
     return (
         <FamilyContext.Provider
@@ -85,6 +89,7 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
                 addMember,
                 removeMember,
                 changeMember,
+                changeFamilyName,
             }}
         >
             {children}

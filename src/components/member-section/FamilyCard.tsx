@@ -1,3 +1,4 @@
+
 import {Button} from "@/components/ui/button";
 import {ArrowLeftIcon} from "lucide-react"
 import {ArrowRightIcon} from "lucide-react"
@@ -5,12 +6,12 @@ import {Trash} from "lucide-react"
 import {Progress} from "@/components/ui/progress";
 import {AddingFoodToUser} from "@/components/member-section/AddingFoodToUser";
 
-export default function FamilyCard() {
+export default function FamilyCard({name}: {name: string}) {
     return (
         <div className="max-w-sm rounded overflow-hidden shadow-lg px-10 py-10">
             <div className="">
                 <div className="flex">
-                    <h1 className="font-bold text-xl m-2 mr-10">Name Here</h1>
+                    <h1 className="font-bold text-xl m-2 mr-10">{name}</h1>
                     <AddingFoodToUser/>
                 </div>
                 <div className="flex flex-wrap p-3">

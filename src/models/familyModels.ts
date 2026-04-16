@@ -33,6 +33,7 @@ export type FamilyContextType = {
     addMember: (member: FamilyMember) => void
     removeMember: (id: string) => void
     changeMember: (id: string, updates: Partial<FamilyMember>) => void
+    changeFamilyName: (name:string) => void
 
 }
 
@@ -40,4 +41,5 @@ export type FamilyAction =
     | { type: "HYDRATE"; payload: FamilyState }
     | { type: "ADD_MEMBER"; payload: FamilyMember }
     | { type: "REMOVE_MEMBER"; payload: { id: string } }
-    | { type: "CHANGE_MEMBER"; payload: { id: string; updates: Partial<FamilyMember> } };
+    | { type: "CHANGE_MEMBER"; payload: { id: string; updates: Partial<FamilyMember> } }
+    | { type: "SET_FAMILY_NAME"; payload: string};

@@ -33,6 +33,12 @@ export default function FamilyReducer(
                 ),
             };
 
+        case "SET_FAMILY_NAME":
+            return{
+                ...state,
+                familyName: action.payload,
+            };
+
         default:
             return state;
     }
