@@ -1,3 +1,5 @@
+"use client";
+
 import {FamilyContextType, FamilyMember, FamilyState,} from "@/models/familyModels";
 import {createContext, ReactNode, useContext, useEffect, useReducer} from "react";
 import FamilyReducer from "@/contexts/FamilyReducer";
@@ -78,7 +80,9 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
     }
 
     const changeFamilyName = (name:string) => {
-        dispatch({type: "SET_FAMILY_NAME", payload:name})
+        dispatch({
+            type: "SET_FAMILY_NAME",
+            payload:name})
     }
 
 

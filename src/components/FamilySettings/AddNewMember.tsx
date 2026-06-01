@@ -62,9 +62,8 @@ export function AddNewMember() {
                         </div>
                     </div>
                     <DialogFooter>
-                        <Button type="submit">Add</Button>
                         <DialogClose asChild>
-                            <Button variant="outline">Close</Button>
+                            <Button type="submit">Add</Button>
                         </DialogClose>
                     </DialogFooter>
                 </form>

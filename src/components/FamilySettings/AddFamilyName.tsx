@@ -36,9 +36,8 @@ export function AddFamilyName() {
                         </div>
                     </div>
                     <DialogFooter>
-                        <Button type="submit">{hasName ? "Change" : "Add"}</Button>
                         <DialogClose asChild>
-                            <Button variant="outline">Close</Button>
+                            <Button type="submit">{hasName ? "Change" : "Add"}</Button>
                         </DialogClose>
                     </DialogFooter>
             </DialogContent>

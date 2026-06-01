@@ -4,21 +4,20 @@ export type FamilyState ={
     familyMembers: FamilyMember[]
 }
 
+export type CalendarDay = string;
 
 export type FamilyMember = {
     id: string
     name:string
-    weightHistory: WeightEntry[]
-    calorieHistory: CalorieEntry[]
+    weightHistory: Map<CalendarDay,WeightEntry>
+    calorieHistory: Map<CalendarDay,CalorieEntry>
 }
 
 export type WeightEntry = {
-    date: string;
     weight: number;
 };
 
 export type CalorieEntry = {
-    date: string;
     items: FoodLog[];
 }
 
