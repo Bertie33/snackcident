@@ -26,6 +26,7 @@ export default function EditIngredient({id, close}: { id: string; close: () => v
 
     let {state} = useFoodContext();
     const {changeIngredient} = useFood();
+    const [errors, setErrors] = useState<{name?: string; calories?: string}>({});
 
     let item = state.ingredients.find((i) => i.id === id);
 
@@ -45,7 +46,7 @@ export default function EditIngredient({id, close}: { id: string; close: () => v
         calories: item.caloriesPer100
     });
 
-    const handleChange = (e:any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
 
         setIngredient((prev) => ({
@@ -56,6 +57,10 @@ export default function EditIngredient({id, close}: { id: string; close: () => v
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        const newErrors: {name?: string; calories?: string} = {};
+        if (!ingredient.name.trim()) newErrors.name = "Name is required";
+        if (Number(ingredient.calories) <= 0) newErrors.calories = "Must be greater than 0";
+        if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
 
         changeIngredient(id, {
             name: ingredient.name,
@@ -63,7 +68,7 @@ export default function EditIngredient({id, close}: { id: string; close: () => v
             caloriesPer100: Number(ingredient.calories),
         });
 
-        close()
+        close();
     };
 
 
@@ -86,6 +91,7 @@ export default function EditIngredient({id, close}: { id: string; close: () => v
                                 value={ingredient.name}
                                 onChange={handleChange}
                             />
+                            {errors.name && <p className="text-destructive text-sm">{errors.name}</p>}
                         </div>
 
                         <div className="grid gap-3">
@@ -118,6 +124,7 @@ export default function EditIngredient({id, close}: { id: string; close: () => v
                                 value={ingredient.calories}
                                 onChange={handleChange}
                             />
+                            {errors.calories && <p className="text-destructive text-sm">{errors.calories}</p>}
                         </div>
                     </div>
 

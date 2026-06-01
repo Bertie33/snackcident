@@ -27,18 +27,24 @@ export function useFoodContext() {
 
 function loadInitialState(): FoodState {
     if (typeof window === "undefined") return initialFoodState
-
-    return {
-        drinks: JSON.parse(
-            localStorage.getItem(STORAGE_KEYS.drinks) || "[]"
-        ),
-        meals: JSON.parse(
-            localStorage.getItem(STORAGE_KEYS.meals) || "[]"
-        ),
-        ingredients: JSON.parse(
-            localStorage.getItem(STORAGE_KEYS.ingredients) || "[]"
-        ),
+    try{
+        return {
+            drinks: JSON.parse(
+                localStorage.getItem(STORAGE_KEYS.drinks) || "[]"
+            ),
+            meals: JSON.parse(
+                localStorage.getItem(STORAGE_KEYS.meals) || "[]"
+            ),
+            ingredients: JSON.parse(
+                localStorage.getItem(STORAGE_KEYS.ingredients) || "[]"
+            ),
+        }
     }
+    catch(error:any) {
+        console.error(error);
+        return initialFoodState;
+    }
+
 }
 
 export function FoodProvider({ children }: { children: ReactNode }) {
@@ -100,7 +106,7 @@ export function FoodProvider({ children }: { children: ReactNode }) {
         })
     }
 
-    const changeIngredient = (id: string, updates: Partial<Drink>) => {
+    const changeIngredient = (id: string, updates: Partial<Ingredient>) => {
         dispatch({
             type: "CHANGE_INGREDIENT",
             payload: { id, updates },
@@ -121,7 +127,7 @@ export function FoodProvider({ children }: { children: ReactNode }) {
         })
     }
 
-    const changeMeal = (id: string, updates: Partial<Drink>) => {
+    const changeMeal = (id: string, updates: Partial<Meal>) => {
         dispatch({
             type: "CHANGE_MEAL",
             payload: { id, updates },

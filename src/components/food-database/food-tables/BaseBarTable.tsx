@@ -26,7 +26,7 @@ interface BaseBarTableProps<T extends TableItem>{
 export function BaseBarTable<T extends TableItem>({ items, renderRow, editComponent, headers: columnHeaders }: BaseBarTableProps<T>) {
     const [search, setSearch] = useState("");
     const [startIndex, setStartIndex] = useState(0);
-    const [endIndex, setEndIndex] = useState(5);
+    const endIndex = 5;
     const [open, setOpen] = useState(false);
     const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -67,11 +67,9 @@ export function BaseBarTable<T extends TableItem>({ items, renderRow, editCompon
                         rowsPerPage={5}
                         onPrevious={() => {
                             setStartIndex(Math.max(0, startIndex - 5));
-                            setEndIndex(Math.max(5, endIndex - 5));
                         }}
                         onNext={() => {
                             setStartIndex(startIndex + 5);
-                            setEndIndex(endIndex + 5);
                         }}
                     />
                 </div>

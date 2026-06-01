@@ -45,13 +45,19 @@ export function AddNewIngredient({ open, onClose }: AddNewIngredientProps) {
         calories: 0,
     });
 
-    const handleChange = (e: any) => {
+    const [errors, setErrors] = useState<{name?: string; calories?: string}>({});
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setItem((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        const newErrors: {name?: string; calories?: string} = {};
+        if (!item.name.trim()) newErrors.name = "Name is required";
+        if (Number(item.calories) <= 0) newErrors.calories = "Must be greater than 0";
+        if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
 
         context.addIngredient({
             id: uuid(),
@@ -82,6 +88,7 @@ export function AddNewIngredient({ open, onClose }: AddNewIngredientProps) {
                                 value={item.name}
                                 onChange={handleChange}
                             />
+                            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
                         </div>
 
                         <div className="grid gap-3">
@@ -114,6 +121,7 @@ export function AddNewIngredient({ open, onClose }: AddNewIngredientProps) {
                                 value={item.calories}
                                 onChange={handleChange}
                             />
+                            {errors.calories && <p className="text-red-500 text-sm">{errors.calories}</p>}
                         </div>
                     </div>
 

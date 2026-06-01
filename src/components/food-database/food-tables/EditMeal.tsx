@@ -14,6 +14,7 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
     let {state} = useFoodContext();
     const {changeMeal} = useFood();
     const [addIngredientOpen, setAddIngredientOpen] = useState(false);
+    const [errors, setErrors] = useState<{name?: string; portions?: string}>({});
 
     let item = state.meals.find((i) => i.id === id);
 
@@ -27,7 +28,7 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
         ingredients: item.ingredients
     });
 
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
 
         setMeal((prev) => ({
@@ -66,6 +67,10 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        const newErrors: {name?: string; portions?: string} = {};
+        if (!meal.name.trim()) newErrors.name = "Name is required";
+        if (meal.portions <= 0) newErrors.portions = "Must be greater than 0";
+        if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
 
         const caloriesPerPortion = calculateMealCaloriesPerPortion(
             meal.ingredients,
@@ -80,7 +85,7 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
             caloriesPerPortion: caloriesPerPortion
         });
 
-        close()
+        close();
     };
 
 
@@ -101,6 +106,7 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
                                 value={meal.name}
                                 onChange={handleChange}
                             />
+                            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
                         </div>
 
                         <div className="grid gap-2">
@@ -184,6 +190,7 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
                                 value={meal.portions}
                                 onChange={handleChange}
                             />
+                            {errors.portions && <p className="text-red-500 text-sm">{errors.portions}</p>}
                         </div>
 
                         {meal.portions > 0 && meal.ingredients.length > 0 && (

@@ -18,6 +18,7 @@ export default function EditDrink({id, close}: { id: string; close: () => void }
 
     let {state} = useFoodContext();
     const {changeDrink} = useFood();
+    const [errors, setErrors] = useState<{name?: string; calories?: string}>({});
 
     let item = state.drinks.find((i) => i.id === id);
 
@@ -35,7 +36,7 @@ export default function EditDrink({id, close}: { id: string; close: () => void }
         calories: item.calories
     });
 
-    const handleChange = (e:any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
 
         setDrink((prev) => ({
@@ -46,13 +47,17 @@ export default function EditDrink({id, close}: { id: string; close: () => void }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        const newErrors: {name?: string; calories?: string} = {};
+        if (!drink.name.trim()) newErrors.name = "Name is required";
+        if (Number(drink.calories) <= 0) newErrors.calories = "Must be greater than 0";
+        if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
 
         changeDrink(id, {
             name: drink.name,
             calories: Number(drink.calories),
         });
 
-        close()
+        close();
     };
 
 
@@ -67,14 +72,15 @@ export default function EditDrink({id, close}: { id: string; close: () => void }
 
                     <div className="grid gap-4">
                         <div className="grid gap-3">
-                            <Label htmlFor="ingredient">Edit Name</Label>
+                            <Label htmlFor="drink">Edit Name</Label>
                             <Input
-                                id="ingredient"
+                                id="drink"
                                 placeholder={drink.name}
                                 name="name"
                                 value={drink.name}
                                 onChange={handleChange}
                             />
+                            {errors.name && <p className="text-destructive text-sm">{errors.name}</p>}
                         </div>
 
                         <div className="grid gap-3">
@@ -89,6 +95,7 @@ export default function EditDrink({id, close}: { id: string; close: () => void }
                                 value={drink.calories}
                                 onChange={handleChange}
                             />
+                            {errors.calories && <p className="text-destructive text-sm">{errors.calories}</p>}
                         </div>
                     </div>
 

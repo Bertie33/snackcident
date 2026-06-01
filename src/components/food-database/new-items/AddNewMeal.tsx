@@ -34,6 +34,8 @@ export function AddNewMeal() {
     const [isOpen, setIsOpen] = useState(false);
     const [addIngredientOpen, setAddIngredientOpen] = useState(false);
 
+    const [errors, setErrors] = useState<{name?: string; portions?: string}>({});
+
     const handleChange = (e: any) => {
         const { name, value } = e.target;
 
@@ -74,6 +76,10 @@ export function AddNewMeal() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        const newErrors: {name?: string; portions?: string} = {};
+        if (!item.name.trim()) newErrors.name = "Name is required";
+        if (item.portions <= 0) newErrors.portions = "Must be greater than 0";
+        if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
 
         const caloriesPerPortion = calculateMealCaloriesPerPortion(
             item.ingredients,
@@ -90,7 +96,6 @@ export function AddNewMeal() {
         });
 
         setItem(initialState);
-
         setIsOpen(false);
     };
 
@@ -117,6 +122,7 @@ export function AddNewMeal() {
                                     value={item.name}
                                     onChange={handleChange}
                                 />
+                                {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
                             </div>
 
                             <div className="flex flex-col gap-3 max-h-40 overflow-y-auto border rounded-md p-2">
@@ -191,6 +197,7 @@ export function AddNewMeal() {
                                     value={item.portions}
                                     onChange={handleChange}
                                 />
+                                {errors.portions && <p className="text-red-500 text-sm">{errors.portions}</p>}
                             </div>
 
                             {item.portions > 0 && item.ingredients.length > 0 && (

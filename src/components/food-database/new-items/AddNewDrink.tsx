@@ -25,6 +25,8 @@ export function AddNewDrink() {
         calories:""
     })
 
+    const [errors,setErrors] = useState<{name?: string; calories?: string}>({});
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
@@ -36,6 +38,11 @@ export function AddNewDrink() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        const newErrors: {name?: string; calories?: string} = {};
+        if (!item.name.trim()) newErrors.name = "Name is required";
+        if (Number(item.calories) <= 0) newErrors.calories = "Must be greater than 0";
+        if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
+
         context.addDrink({
             id: uuid(),
             name: item.name,
@@ -60,10 +67,12 @@ export function AddNewDrink() {
                         <div className="grid gap-3">
                             <Label htmlFor="item-1">Drink: </Label>
                             <Input id="drink-1"  value={item.name} name="name" onChange={handleChange} />
+                            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
                         </div>
                         <div className="grid gap-3">
                             <Label htmlFor="calories-1">Calories per 100ml</Label>
                             <Input id="calories-1" inputMode="numeric" name="calories" value={item.calories} type="number" onChange={handleChange} />
+                            {errors.calories && <p className="text-red-500 text-sm">{errors.calories}</p>}
                         </div>
                     </div>
                     <DialogFooter>
