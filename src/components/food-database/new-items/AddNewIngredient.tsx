@@ -62,13 +62,13 @@ export function AddNewIngredient({open, onClose}: AddNewIngredientProps) {
                 caloriesPer100: Number(item.calories),
                 deleted: false,
             });
+            setItem({name: "", unit: "g", calories: 0});
+            onClose();
         } catch (error: any) {
             if (error instanceof UserError)
                 setErrors(error.newUserErrors)
         }
 
-        setItem({name: "", unit: "g", calories: 0});
-        onClose();
     };
 
     return (

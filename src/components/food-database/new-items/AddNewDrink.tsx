@@ -45,12 +45,12 @@ export function AddNewDrink() {
                 name: item.name,
                 calories: Number(item.calories),
             });
+            setItem({name: "", calories: ""});
         } catch (error: any) {
             if (error instanceof UserError)
                 setErrors(error.newUserErrors)
         }
 
-        setItem({name: "", calories: ""});
     };
 
 

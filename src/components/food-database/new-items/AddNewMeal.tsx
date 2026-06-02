@@ -91,12 +91,13 @@ export function AddNewMeal() {
                 caloriesPerPortion,
                 ingredients: item.ingredients,
             });
+            setItem(initialState);
+            setIsOpen(false);
         } catch (error: any) {
             if (error instanceof UserError)
                 setErrors(error.newUserErrors)
         }
-        setItem(initialState);
-        setIsOpen(false);
+
 
 
     };

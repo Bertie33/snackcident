@@ -115,7 +115,7 @@ export function FoodProvider({ children }: { children: ReactNode }) {
         const newErrors: {name?: string; calories?: string; unit?:string} = {};
         if (!ingredient.name.trim()) newErrors.name = "Name is required";
         if (Number(ingredient.caloriesPer100) <= 0) newErrors.calories = "Must be greater than 0";
-        if(ingredient.unit) newErrors.unit = "Unit is required";
+        if(!ingredient.unit) newErrors.unit = "Unit is required";
         if (Object.keys(newErrors).length > 0) throw new UserError("Invalid ingredient", newErrors)
 
         dispatch({
