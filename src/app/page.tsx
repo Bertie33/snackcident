@@ -1,11 +1,11 @@
-import FamilyCard from "@/components/FamilyCard";
-import NavBar from "@/components/FoodBar";
-import {Navigation} from "@/components/Navigation";
-import Link from "next/link";
-import FoodBar from "@/components/FoodBar";
+import FamilyCard from "@/components/member-section/FamilyCard";
+
+import FoodBar from "@/components/food-database/FoodBar";
+import {FoodProvider} from "@/contexts/FoodProvider";
 
 export default function Home() {
     return (
+        <FoodProvider>
         <div className="m-10">
             <div className="">
                 <FoodBar/>
@@ -17,7 +17,7 @@ export default function Home() {
                 </div>
             </div>
         </div>
-
+        </FoodProvider>
 
     );
 }
