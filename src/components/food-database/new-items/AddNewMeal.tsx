@@ -13,7 +13,7 @@ import {
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {MealComboBox} from "@/components/food-database/new-items/MealComboBox";
-import {useFood} from "@/contexts/FoodProvider";
+import {useFood, useFoodContext, UserError} from "@/contexts/FoodProvider";
 import {useState} from "react";
 import {v4 as uuid} from "uuid";
 import {MealIngredient} from "@/models/models";
@@ -34,8 +34,10 @@ export function AddNewMeal() {
     const [isOpen, setIsOpen] = useState(false);
     const [addIngredientOpen, setAddIngredientOpen] = useState(false);
 
+    const [errors, setErrors] = useState<{ name?: string; portions?: string }>({});
+
     const handleChange = (e: any) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
 
         setItem((prev) => ({
             ...prev,
@@ -60,7 +62,7 @@ export function AddNewMeal() {
         setItem(prev => ({
             ...prev,
             ingredients: prev.ingredients.map(i =>
-                i.ingredientId === ingredientId ? { ...i, amount } : i
+                i.ingredientId === ingredientId ? {...i, amount} : i
             )
         }));
     };
@@ -81,22 +83,28 @@ export function AddNewMeal() {
             item.portions
         );
 
-        context.addMeal({
-            id: uuid(),
-            name: item.name,
-            portions: item.portions,
-            caloriesPerPortion,
-            ingredients: item.ingredients,
-        });
+        try {
+            context.addMeal({
+                id: uuid(),
+                name: item.name,
+                portions: item.portions,
+                caloriesPerPortion,
+                ingredients: item.ingredients,
+            });
+            setItem(initialState);
+            setIsOpen(false);
+        } catch (error: any) {
+            if (error instanceof UserError)
+                setErrors(error.newUserErrors)
+        }
 
-        setItem(initialState);
 
-        setIsOpen(false);
+
     };
 
     return (
-        <div >
-            <Dialog  open={isOpen} onOpenChange={setIsOpen}>
+        <div>
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
 
                 <DialogTrigger asChild>
                     <Button className="w-full" onClick={() => setIsOpen(true)}>
@@ -104,11 +112,11 @@ export function AddNewMeal() {
                     </Button>
                 </DialogTrigger>
 
-                    <DialogContent className="sm:max-w-[425px]">
-                        <DialogHeader>
-                            <DialogTitle>Add New Meal</DialogTitle>
-                        </DialogHeader>
-                        <form onSubmit={handleSubmit}>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>Add New Meal</DialogTitle>
+                    </DialogHeader>
+                    <form onSubmit={handleSubmit}>
                         <div className="grid gap-4">
                             <div className="grid gap-3">
                                 <Label>Meal:</Label>
@@ -117,6 +125,7 @@ export function AddNewMeal() {
                                     value={item.name}
                                     onChange={handleChange}
                                 />
+                                {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
                             </div>
 
                             <div className="flex flex-col gap-3 max-h-40 overflow-y-auto border rounded-md p-2">
@@ -172,7 +181,7 @@ export function AddNewMeal() {
                             </div>
 
                             <div onClick={(e) => e.stopPropagation()}>
-                                <MealComboBox onSelect={handleAddIngredient} />
+                                <MealComboBox onSelect={handleAddIngredient}/>
                             </div>
                             <Button
                                 type="button"
@@ -191,6 +200,7 @@ export function AddNewMeal() {
                                     value={item.portions}
                                     onChange={handleChange}
                                 />
+                                {errors.portions && <p className="text-red-500 text-sm">{errors.portions}</p>}
                             </div>
 
                             {item.portions > 0 && item.ingredients.length > 0 && (
@@ -216,8 +226,8 @@ export function AddNewMeal() {
                                 </Button>
                             </DialogClose>
                         </DialogFooter>
-                        </form>
-                    </DialogContent>
+                    </form>
+                </DialogContent>
             </Dialog>
             <AddNewIngredient
                 open={addIngredientOpen}

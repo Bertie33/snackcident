@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {useFood} from "@/contexts/FoodProvider";
+import {useFood, useFoodContext, UserError} from "@/contexts/FoodProvider";
 import {DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
@@ -14,6 +14,7 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
     let {state} = useFood();
     const {changeMeal} = useFood();
     const [addIngredientOpen, setAddIngredientOpen] = useState(false);
+    const [errors, setErrors] = useState<{ name?: string; portions?: string }>({});
 
     let item = state.meals.find((i) => i.id === id);
 
@@ -27,7 +28,7 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
         ingredients: item.ingredients
     });
 
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
 
         setMeal((prev) => ({
@@ -72,15 +73,20 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
             state.ingredients,
             meal.portions
         );
+        try {
+            changeMeal(id, {
+                name: meal.name,
+                portions: meal.portions,
+                ingredients: meal.ingredients,
+                caloriesPerPortion: caloriesPerPortion
+            });
+            close();
+        } catch (error: any) {
+            if (error instanceof UserError)
+                setErrors(error.newUserErrors)
+        }
 
-        changeMeal(id, {
-            name: meal.name,
-            portions: meal.portions,
-            ingredients: meal.ingredients,
-            caloriesPerPortion: caloriesPerPortion
-        });
 
-        close()
     };
 
 
@@ -101,6 +107,7 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
                                 value={meal.name}
                                 onChange={handleChange}
                             />
+                            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
                         </div>
 
                         <div className="grid gap-2">
@@ -163,7 +170,7 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
 
                         <div className="grid gap-2">
                             <Label>Add Ingredient</Label>
-                            <MealComboBox onSelect={handleAddIngredient} />
+                            <MealComboBox onSelect={handleAddIngredient}/>
                         </div>
 
 
@@ -184,6 +191,7 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
                                 value={meal.portions}
                                 onChange={handleChange}
                             />
+                            {errors.portions && <p className="text-red-500 text-sm">{errors.portions}</p>}
                         </div>
 
                         {meal.portions > 0 && meal.ingredients.length > 0 && (

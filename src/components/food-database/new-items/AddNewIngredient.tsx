@@ -19,10 +19,10 @@ import {
 } from "@/components/ui/select"
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
-import {useFood} from "@/contexts/FoodProvider";
+import {useFood, useFoodContext, UserError} from "@/contexts/FoodProvider";
 import {useState} from "react";
 import {v4 as uuid} from "uuid";
-import { Unit} from "@/models/models"
+import {Unit} from "@/models/models"
 
 
 interface AddNewIngredientProps {
@@ -30,7 +30,7 @@ interface AddNewIngredientProps {
     onClose: () => void;
 }
 
-export function AddNewIngredient({ open, onClose }: AddNewIngredientProps) {
+export function AddNewIngredient({open, onClose}: AddNewIngredientProps) {
     let context = useFood();
 
     interface FormIngredient {
@@ -45,24 +45,30 @@ export function AddNewIngredient({ open, onClose }: AddNewIngredientProps) {
         calories: 0,
     });
 
-    const handleChange = (e: any) => {
-        const { name, value } = e.target;
-        setItem((prev) => ({ ...prev, [name]: value }));
+    const [errors, setErrors] = useState<{ name?: string; calories?: string }>({});
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target;
+        setItem((prev) => ({...prev, [name]: value}));
     };
 
     const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
 
-        context.addIngredient({
-            id: uuid(),
-            name: item.name,
-            unit: item.unit,
-            caloriesPer100: Number(item.calories),
-            deleted: false,
-        });
+        try {
+            context.addIngredient({
+                id: uuid(),
+                name: item.name,
+                unit: item.unit,
+                caloriesPer100: Number(item.calories),
+                deleted: false,
+            });
+            setItem({name: "", unit: "g", calories: 0});
+            onClose();
+        } catch (error: any) {
+            if (error instanceof UserError)
+                setErrors(error.newUserErrors)
+        }
 
-        setItem({ name: "", unit: "g", calories: 0 });
-        onClose();
     };
 
     return (
@@ -82,6 +88,7 @@ export function AddNewIngredient({ open, onClose }: AddNewIngredientProps) {
                                 value={item.name}
                                 onChange={handleChange}
                             />
+                            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
                         </div>
 
                         <div className="grid gap-3">
@@ -89,11 +96,11 @@ export function AddNewIngredient({ open, onClose }: AddNewIngredientProps) {
                             <Select
                                 value={item.unit}
                                 onValueChange={(value: Unit) =>
-                                    setItem((prev) => ({ ...prev, unit: value }))
+                                    setItem((prev) => ({...prev, unit: value}))
                                 }
                             >
                                 <SelectTrigger id="unit">
-                                    <SelectValue placeholder="Select unit" />
+                                    <SelectValue placeholder="Select unit"/>
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="g">g</SelectItem>
@@ -114,6 +121,7 @@ export function AddNewIngredient({ open, onClose }: AddNewIngredientProps) {
                                 value={item.calories}
                                 onChange={handleChange}
                             />
+                            {errors.calories && <p className="text-red-500 text-sm">{errors.calories}</p>}
                         </div>
                     </div>
 

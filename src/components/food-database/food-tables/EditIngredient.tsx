@@ -1,7 +1,7 @@
 "use client";
 
-import { useFood } from "@/contexts/FoodProvider";
-import { useState } from "react";
+import {useFood, useFoodContext, UserError} from "@/contexts/FoodProvider";
+import {useState} from "react";
 import {
     DialogClose,
     DialogContent,
@@ -9,9 +9,9 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
+import {Label} from "@/components/ui/label";
+import {Input} from "@/components/ui/input";
 import {
     Select,
     SelectContent,
@@ -19,13 +19,14 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Unit } from "@/models/models";
+import {Unit} from "@/models/models";
 
 
 export default function EditIngredient({id, close}: { id: string; close: () => void }) {
 
     let {state} = useFood();
     const {changeIngredient} = useFood();
+    const [errors, setErrors] = useState<{ name?: string; calories?: string }>({});
 
     let item = state.ingredients.find((i) => i.id === id);
 
@@ -45,7 +46,7 @@ export default function EditIngredient({id, close}: { id: string; close: () => v
         calories: item.caloriesPer100
     });
 
-    const handleChange = (e:any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
 
         setIngredient((prev) => ({
@@ -56,16 +57,19 @@ export default function EditIngredient({id, close}: { id: string; close: () => v
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        try {
+            changeIngredient(id, {
+                name: ingredient.name,
+                unit: ingredient.unit,
+                caloriesPer100: Number(ingredient.calories),
+            });
+            close();
+        } catch (error: any) {
+            if (error instanceof UserError)
+                setErrors(error.newUserErrors)
+        }
 
-        changeIngredient(id, {
-            name: ingredient.name,
-            unit: ingredient.unit,
-            caloriesPer100: Number(ingredient.calories),
-        });
-
-        close()
     };
-
 
 
     return (
@@ -86,6 +90,7 @@ export default function EditIngredient({id, close}: { id: string; close: () => v
                                 value={ingredient.name}
                                 onChange={handleChange}
                             />
+                            {errors.name && <p className="text-destructive text-sm">{errors.name}</p>}
                         </div>
 
                         <div className="grid gap-3">
@@ -93,7 +98,7 @@ export default function EditIngredient({id, close}: { id: string; close: () => v
                             <Select
                                 value={ingredient.unit}
                                 onValueChange={(value: Unit) =>
-                                    setIngredient((prev) => ({ ...prev, unit: value }))
+                                    setIngredient((prev) => ({...prev, unit: value}))
                                 }
                             >
                                 <SelectTrigger id="unit">
@@ -118,6 +123,7 @@ export default function EditIngredient({id, close}: { id: string; close: () => v
                                 value={ingredient.calories}
                                 onChange={handleChange}
                             />
+                            {errors.calories && <p className="text-destructive text-sm">{errors.calories}</p>}
                         </div>
                     </div>
 

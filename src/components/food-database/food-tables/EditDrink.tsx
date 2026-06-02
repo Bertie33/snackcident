@@ -1,7 +1,7 @@
 "use client";
 
-import {useFood} from "@/contexts/FoodProvider";
-import { useState } from "react";
+import {useFood, useFoodContext, UserError} from "@/contexts/FoodProvider";
+import {useState} from "react";
 import {
     DialogClose,
     DialogContent,
@@ -9,15 +9,16 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
+import {Label} from "@/components/ui/label";
+import {Input} from "@/components/ui/input";
 
 
 export default function EditDrink({id, close}: { id: string; close: () => void }) {
 
     let {state} = useFood();
     const {changeDrink} = useFood();
+    const [errors, setErrors] = useState<{ name?: string; calories?: string }>({});
 
     let item = state.drinks.find((i) => i.id === id);
 
@@ -35,7 +36,7 @@ export default function EditDrink({id, close}: { id: string; close: () => void }
         calories: item.calories
     });
 
-    const handleChange = (e:any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
 
         setDrink((prev) => ({
@@ -46,15 +47,20 @@ export default function EditDrink({id, close}: { id: string; close: () => void }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        try {
+            changeDrink(id, {
+                name: drink.name,
+                calories: Number(drink.calories),
+            });
+            close();
 
-        changeDrink(id, {
-            name: drink.name,
-            calories: Number(drink.calories),
-        });
+        } catch (error: any) {
+            if (error instanceof UserError)
+                setErrors(error.newUserErrors)
+        }
 
-        close()
+
     };
-
 
 
     return (
@@ -67,14 +73,15 @@ export default function EditDrink({id, close}: { id: string; close: () => void }
 
                     <div className="grid gap-4">
                         <div className="grid gap-3">
-                            <Label htmlFor="ingredient">Edit Name</Label>
+                            <Label htmlFor="drink">Edit Name</Label>
                             <Input
-                                id="ingredient"
+                                id="drink"
                                 placeholder={drink.name}
                                 name="name"
                                 value={drink.name}
                                 onChange={handleChange}
                             />
+                            {errors.name && <p className="text-destructive text-sm">{errors.name}</p>}
                         </div>
 
                         <div className="grid gap-3">
@@ -89,6 +96,7 @@ export default function EditDrink({id, close}: { id: string; close: () => void }
                                 value={drink.calories}
                                 onChange={handleChange}
                             />
+                            {errors.calories && <p className="text-destructive text-sm">{errors.calories}</p>}
                         </div>
                     </div>
 
