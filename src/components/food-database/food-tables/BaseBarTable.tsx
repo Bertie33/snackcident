@@ -26,7 +26,7 @@ interface BaseBarTableProps<T extends TableItem>{
 export function BaseBarTable<T extends TableItem>({ items, renderRow, editComponent, headers: columnHeaders }: BaseBarTableProps<T>) {
     const [search, setSearch] = useState("");
     const [startIndex, setStartIndex] = useState(0);
-    const endIndex = 5;
+    const endIndex = startIndex + 5;
     const [open, setOpen] = useState(false);
     const [editingId, setEditingId] = useState<string | null>(null);
 
