@@ -1,7 +1,7 @@
 "use client";
 
-import { useFood, useFoodContext } from "@/contexts/FoodProvider";
-import { useState } from "react";
+import {useFood, useFoodContext, UserError} from "@/contexts/FoodProvider";
+import {useState} from "react";
 import {
     DialogClose,
     DialogContent,
@@ -9,9 +9,9 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
+import {Label} from "@/components/ui/label";
+import {Input} from "@/components/ui/input";
 import {
     Select,
     SelectContent,
@@ -19,14 +19,14 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Unit } from "@/models/models";
+import {Unit} from "@/models/models";
 
 
 export default function EditIngredient({id, close}: { id: string; close: () => void }) {
 
     let {state} = useFoodContext();
     const {changeIngredient} = useFood();
-    const [errors, setErrors] = useState<{name?: string; calories?: string}>({});
+    const [errors, setErrors] = useState<{ name?: string; calories?: string }>({});
 
     let item = state.ingredients.find((i) => i.id === id);
 
@@ -57,20 +57,19 @@ export default function EditIngredient({id, close}: { id: string; close: () => v
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const newErrors: {name?: string; calories?: string} = {};
-        if (!ingredient.name.trim()) newErrors.name = "Name is required";
-        if (Number(ingredient.calories) <= 0) newErrors.calories = "Must be greater than 0";
-        if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
+        try {
+            changeIngredient(id, {
+                name: ingredient.name,
+                unit: ingredient.unit,
+                caloriesPer100: Number(ingredient.calories),
+            });
+            close();
+        } catch (error: any) {
+            if (error instanceof UserError)
+                setErrors(error.newUserErrors)
+        }
 
-        changeIngredient(id, {
-            name: ingredient.name,
-            unit: ingredient.unit,
-            caloriesPer100: Number(ingredient.calories),
-        });
-
-        close();
     };
-
 
 
     return (
@@ -99,7 +98,7 @@ export default function EditIngredient({id, close}: { id: string; close: () => v
                             <Select
                                 value={ingredient.unit}
                                 onValueChange={(value: Unit) =>
-                                    setIngredient((prev) => ({ ...prev, unit: value }))
+                                    setIngredient((prev) => ({...prev, unit: value}))
                                 }
                             >
                                 <SelectTrigger id="unit">

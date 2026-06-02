@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {useFood, useFoodContext} from "@/contexts/FoodProvider";
+import {useFood, useFoodContext, UserError} from "@/contexts/FoodProvider";
 import {DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
@@ -14,7 +14,7 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
     let {state} = useFoodContext();
     const {changeMeal} = useFood();
     const [addIngredientOpen, setAddIngredientOpen] = useState(false);
-    const [errors, setErrors] = useState<{name?: string; portions?: string}>({});
+    const [errors, setErrors] = useState<{ name?: string; portions?: string }>({});
 
     let item = state.meals.find((i) => i.id === id);
 
@@ -67,25 +67,26 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const newErrors: {name?: string; portions?: string} = {};
-        if (!meal.name.trim()) newErrors.name = "Name is required";
-        if (meal.portions <= 0) newErrors.portions = "Must be greater than 0";
-        if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
 
         const caloriesPerPortion = calculateMealCaloriesPerPortion(
             meal.ingredients,
             state.ingredients,
             meal.portions
         );
+        try {
+            changeMeal(id, {
+                name: meal.name,
+                portions: meal.portions,
+                ingredients: meal.ingredients,
+                caloriesPerPortion: caloriesPerPortion
+            });
+            close();
+        } catch (error: any) {
+            if (error instanceof UserError)
+                setErrors(error.newUserErrors)
+        }
 
-        changeMeal(id, {
-            name: meal.name,
-            portions: meal.portions,
-            ingredients: meal.ingredients,
-            caloriesPerPortion: caloriesPerPortion
-        });
 
-        close();
     };
 
 
@@ -169,7 +170,7 @@ export default function EditMeal({id, close}: { id: string; close: () => void })
 
                         <div className="grid gap-2">
                             <Label>Add Ingredient</Label>
-                            <MealComboBox onSelect={handleAddIngredient} />
+                            <MealComboBox onSelect={handleAddIngredient}/>
                         </div>
 
 

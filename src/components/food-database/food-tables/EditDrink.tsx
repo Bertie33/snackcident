@@ -1,7 +1,7 @@
 "use client";
 
-import { useFood, useFoodContext } from "@/contexts/FoodProvider";
-import { useState } from "react";
+import {useFood, useFoodContext, UserError} from "@/contexts/FoodProvider";
+import {useState} from "react";
 import {
     DialogClose,
     DialogContent,
@@ -9,16 +9,16 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
+import {Label} from "@/components/ui/label";
+import {Input} from "@/components/ui/input";
 
 
 export default function EditDrink({id, close}: { id: string; close: () => void }) {
 
     let {state} = useFoodContext();
     const {changeDrink} = useFood();
-    const [errors, setErrors] = useState<{name?: string; calories?: string}>({});
+    const [errors, setErrors] = useState<{ name?: string; calories?: string }>({});
 
     let item = state.drinks.find((i) => i.id === id);
 
@@ -47,19 +47,20 @@ export default function EditDrink({id, close}: { id: string; close: () => void }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const newErrors: {name?: string; calories?: string} = {};
-        if (!drink.name.trim()) newErrors.name = "Name is required";
-        if (Number(drink.calories) <= 0) newErrors.calories = "Must be greater than 0";
-        if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
+        try {
+            changeDrink(id, {
+                name: drink.name,
+                calories: Number(drink.calories),
+            });
+            close();
 
-        changeDrink(id, {
-            name: drink.name,
-            calories: Number(drink.calories),
-        });
+        } catch (error: any) {
+            if (error instanceof UserError)
+                setErrors(error.newUserErrors)
+        }
 
-        close();
+
     };
-
 
 
     return (
