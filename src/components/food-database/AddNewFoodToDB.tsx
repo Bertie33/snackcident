@@ -23,7 +23,7 @@ export function AddNewFoodToDB() {
         <Dialog>
             <form>
                 <DialogTrigger asChild>
-                    <Button variant="outline">Add New</Button>
+                    <Button variant="default">Add New</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
