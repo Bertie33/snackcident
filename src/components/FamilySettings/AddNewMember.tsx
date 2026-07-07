@@ -17,7 +17,7 @@ import {v4 as uuid} from "uuid";
 
 export function AddNewMember() {
 
-    let context = useFamilyContext();
+    const context = useFamilyContext();
 
     const [member, setMember] = useState({
         name: "",
@@ -37,8 +37,8 @@ export function AddNewMember() {
         context.addMember({
             id: uuid(),
             name: member.name,
-            weightHistory:[],
-            calorieHistory:[],
+            weightHistory:new Map(),
+            calorieHistory:new Map(),
         });
 
         setMember({name: ""});
@@ -48,7 +48,7 @@ export function AddNewMember() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button>Add New Member</Button>
+                <Button variant="default" >Add New Member</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <form onSubmit={handleSubmit}>

@@ -18,7 +18,7 @@ export function AddingFoodToUser() {
         <Dialog>
             <form>
                 <DialogTrigger asChild>
-                    <Button variant="outline">Add +</Button>
+                    <Button variant="outline">Add Food +</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>

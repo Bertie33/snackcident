@@ -22,7 +22,7 @@ export function AddFamilyName() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button>{hasName ? "Change Family Name" : "Add Family Name"}</Button>
+                <Button variant="default">{hasName ? "Change Family Name" : "Add Family Name"}</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>

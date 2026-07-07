@@ -33,6 +33,7 @@ export type FamilyContextType = {
     removeMember: (id: string) => void
     changeMember: (id: string, updates: Partial<FamilyMember>) => void
     changeFamilyName: (name:string) => void
+    addWeight: (id: string, date: string, weight: number) => void
 
 }
 

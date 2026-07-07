@@ -24,7 +24,7 @@ export function DeleteFamilyMember() {
                         <div key={member.id} className="flex justify-between items-center">
                             <span>{member.name}</span>
                             <DialogClose asChild>
-                                <Button variant="destructive" onClick={() => removeMember(member.id)}>
+                                <Button  variant="destructive" onClick={() => removeMember(member.id)}>
                                     Delete
                                 </Button>
                             </DialogClose>

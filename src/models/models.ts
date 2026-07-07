@@ -88,3 +88,27 @@ export type FoodAction =
         ingredientId: string
     }
 }
+
+export type EditTarget = {
+    memberId: string;
+    memberName: string;
+    date: string;
+    weight: number;
+};
+
+export type EditWeightDialogProps = {
+    target: EditTarget | null;
+    onClose: () => void;
+    onSave: (weight: number) => void;
+};
+
+export type WeightActiveDotProps = {
+    cx?: number;
+    cy?: number;
+    fill?: string;
+    stroke?: string;
+    value?: number;
+    payload: {
+        date: number;
+    };
+};

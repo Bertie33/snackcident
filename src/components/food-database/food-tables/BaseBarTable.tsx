@@ -26,7 +26,7 @@ interface BaseBarTableProps<T extends TableItem>{
 export function BaseBarTable<T extends TableItem>({ items, renderRow, editComponent, headers: columnHeaders }: BaseBarTableProps<T>) {
     const [search, setSearch] = useState("");
     const [startIndex, setStartIndex] = useState(0);
-    const endIndex = startIndex + 5;
+    const endIndex = startIndex + 3;
     const [open, setOpen] = useState(false);
     const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -35,11 +35,11 @@ export function BaseBarTable<T extends TableItem>({ items, renderRow, editCompon
         : items.slice(startIndex, endIndex);
 
     return (
-        <div className="w-full rounded-xl border bg-background shadow-sm ">
+        <div className="w-full rounded-xl border bg-background">
             <div className="w-full overflow-x-auto">
-                <div className="max-h-[320px] overflow-y-auto">
+                <div className="max-h-[320px] overflow-y-auto m-4">
                     <SearchBar value={search} onChange={setSearch} />
-                    <Table className="w-full min-w-[100px] max-w-sm">
+                    <Table className="w-full min-w-full">
                         <TableHeader className="sticky top-0 z-10 bg-background">
                             <TableRow>
                                 {(columnHeaders || ["Item", "Calories", "Actions"]).map((header, i, arr) => (

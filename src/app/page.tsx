@@ -10,15 +10,13 @@ export default function Home() {
 
     return (
         <FoodProvider>
-        <div className="m-10 items-center">
-            <div className="w-full h-auto flex items-center justify-center gap-2  mx-auto rounded-xl overflow-hidden">
-                <div className="flex gap-5 p-10">
-                    {state.familyMembers.map((member) => (
-                        <FamilyCard key={member.id} name={member.name} />
+            <div className="max-w-5xl mx-auto px-6 py-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {state.familyMembers.map((member, index) => (
+                        <FamilyCard key={member.id} id={member.id} name={member.name} index={index} />
                     ))}
                 </div>
             </div>
-        </div>
         </FoodProvider>
 
     );
