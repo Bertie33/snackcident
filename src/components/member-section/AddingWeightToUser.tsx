@@ -45,7 +45,7 @@ export function AddingWeightToUser({ name, id }: { name: string, id: string }) {
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Updating weight for {name}</DialogTitle>
+                        <DialogTitle>Adding weight for {name}</DialogTitle>
                     </DialogHeader>
 
                     <Popover open={open} onOpenChange={setOpen}>
