@@ -11,6 +11,8 @@ export type FamilyMember = {
     name:string
     weightHistory: Map<CalendarDay,WeightEntry>
     calorieHistory: Map<CalendarDay,CalorieEntry>
+    calorieGoal: number
+    weightGoal: number
 }
 
 export type WeightEntry = {
@@ -28,13 +30,12 @@ export type FoodLog = {
 
 export type FamilyContextType = {
     state: FamilyState
-
     addMember: (member: FamilyMember) => void
     removeMember: (id: string) => void
     changeMember: (id: string, updates: Partial<FamilyMember>) => void
     changeFamilyName: (name:string) => void
     addWeight: (id: string, date: string, weight: number) => void
-
+    deleteWeight: (id: string, date: string) => void
 }
 
 export type FamilyAction =

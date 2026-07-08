@@ -16,10 +16,11 @@ import {EditWeightDialog} from "@/components/weight-section/EditWeightDialog";
 import {EditTarget, WeightActiveDotProps} from "@/models/models";
 
 export default function WeightChartContent() {
-    const { state, addWeight } = useFamilyContext();
+    const { state, addWeight, deleteWeight } = useFamilyContext();
     const members = state.familyMembers;
     const allDates = [...new Set(members.flatMap(m => Array.from(m.weightHistory.keys())))].sort();
     const [editTarget, setEditTarget] = React.useState<EditTarget | null>(null);
+
 
     const chartData = allDates.map(date => {
         const row: Record<string, string | number> = {date: new Date(date).getTime()};
@@ -29,6 +30,11 @@ export default function WeightChartContent() {
         }
         return row;
     })
+    function handleDeleteWeight() {
+        if (!editTarget) return;
+        deleteWeight(editTarget.memberId, editTarget.date);
+        setEditTarget(null);
+    }
 
     const chartConfig: ChartConfig = Object.fromEntries(
         members.map((m, i) => [m.id, {
@@ -103,6 +109,7 @@ export default function WeightChartContent() {
                 target={editTarget}
                 onClose={() => setEditTarget(null)}
                 onSave={handleSaveWeight}
+                onDelete={handleDeleteWeight}   // new
             />
         </div>
     )

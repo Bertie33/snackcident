@@ -100,6 +100,7 @@ export type EditWeightDialogProps = {
     target: EditTarget | null;
     onClose: () => void;
     onSave: (weight: number) => void;
+    onDelete: () => void
 };
 
 export type WeightActiveDotProps = {

@@ -10,7 +10,11 @@ import {useFamilyContext} from "@/contexts/FamilyProvider";
 export function ChangeFamilyMember() {
 
     const [selectedId, setSelectedId] = useState<string | null>(null);
-    const [newName, setNewName] = useState("")
+    const [editedMember, setEditedMember] = useState({
+        name: "",
+        weightGoal: 0,
+        calorieGoal: 0,
+    });
     const {state, changeMember} = useFamilyContext();
 
     return (
@@ -23,10 +27,16 @@ export function ChangeFamilyMember() {
                     {state.familyMembers.map((member) => (
                         <div key={member.id} className="flex justify-between items-center">
                             <span>{member.name}</span>
-                            <Button onClick={() => {
-                                setSelectedId(member.id);
-                                setNewName(member.name)
-                            }}>
+                            <Button
+                                onClick={() => {
+                                    setSelectedId(member.id);
+                                    setEditedMember({
+                                        name: member.name,
+                                        weightGoal: member.weightGoal,
+                                        calorieGoal: member.calorieGoal,
+                                    });
+                                }}
+                            >
                                 Edit
                             </Button>
                         </div>
@@ -35,8 +45,40 @@ export function ChangeFamilyMember() {
                 <div>
                     {selectedId && (
                         <div className="grid gap-3 mt-4">
-                            <Label>New Name:</Label>
-                            <Input value={newName} onChange={(e) => setNewName(e.target.value)}/>
+                            <Label>Name</Label>
+                            <Input
+                                value={editedMember.name}
+                                onChange={(e) =>
+                                    setEditedMember(prev => ({
+                                        ...prev,
+                                        name: e.target.value,
+                                    }))
+                                }
+                            />
+
+                            <Label>Weight Goal</Label>
+                            <Input
+                                type="number"
+                                value={editedMember.weightGoal}
+                                onChange={(e) =>
+                                    setEditedMember(prev => ({
+                                        ...prev,
+                                        weightGoal: Number(e.target.value),
+                                    }))
+                                }
+                            />
+
+                            <Label>Calorie Goal</Label>
+                            <Input
+                                type="number"
+                                value={editedMember.calorieGoal}
+                                onChange={(e) =>
+                                    setEditedMember(prev => ({
+                                        ...prev,
+                                        calorieGoal: Number(e.target.value),
+                                    }))
+                                }
+                            />
                         </div>
                     )}
                 </div>
@@ -45,9 +87,14 @@ export function ChangeFamilyMember() {
                         disabled={!selectedId}
                         onClick={() => {
                             if (selectedId) {
-                                changeMember(selectedId, {name: newName});
+                                changeMember(selectedId, editedMember);
+
                                 setSelectedId(null);
-                                setNewName("");
+                                setEditedMember({
+                                    name: "",
+                                    weightGoal: 0,
+                                    calorieGoal: 0,
+                                });
                             }
                         }}
                     >

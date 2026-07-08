@@ -105,6 +105,14 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
         dispatch({ type: "CHANGE_MEMBER", payload: { id, updates: { weightHistory: newMap } } });
     }
 
+    const deleteWeight = (id: string, date: string) => {
+        const member = state.familyMembers.find(m => m.id === id);
+        if (!member) return;
+        const newMap = new Map(member.weightHistory);
+        newMap.delete(date);
+        dispatch({ type: "CHANGE_MEMBER", payload: { id, updates: { weightHistory: newMap } } });
+    }
+
 
     return (
         <FamilyContext.Provider
@@ -115,6 +123,7 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
                 changeMember,
                 changeFamilyName,
                 addWeight,
+                deleteWeight,
             }}
         >
             {children}

@@ -3,15 +3,16 @@ import React from "react";
 import {
     Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {Label} from "@/components/ui/label";
+import {Button} from "@/components/ui/button";
 import {EditWeightDialogProps} from "@/models/models";
 
 export function EditWeightDialog({
                                      target,
                                      onClose,
                                      onSave,
+                                     onDelete,
                                  }: EditWeightDialogProps) {
     const [weight, setWeight] = React.useState("");
 
@@ -19,6 +20,7 @@ export function EditWeightDialog({
     React.useEffect(() => {
         setWeight(target ? String(target.weight) : "");
     }, [target]);
+
 
     if (!target) return null;
 
@@ -49,6 +51,11 @@ export function EditWeightDialog({
                 </div>
 
                 <DialogFooter>
+
+                    <Button variant="destructive" onClick={onDelete}>
+                        Delete
+                    </Button>
+
                     <Button
                         onClick={() => onSave(Number(weight))}
                     >

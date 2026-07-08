@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 
-export function AddingFoodToUser() {
+export function AddingFoodToUser({ name, id }: { name: string, id: string }) {
     return (
         <Dialog>
             <form>
@@ -22,7 +22,7 @@ export function AddingFoodToUser() {
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Adding to "insert name"</DialogTitle>
+                        <DialogTitle>Add food to {name}</DialogTitle>
                     </DialogHeader>
                     <div className="grid gap-4">
                         <div className="grid gap-3">
