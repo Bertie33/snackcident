@@ -6,6 +6,11 @@ export type FamilyState ={
 
 export type CalendarDay = string;
 
+export enum Gender {
+    Male = "male",
+    Female = "female",
+}
+
 export type FamilyMember = {
     id: string
     name:string
@@ -13,6 +18,9 @@ export type FamilyMember = {
     calorieHistory: Map<CalendarDay,CalorieEntry>
     calorieGoal: number
     weightGoal: number
+    age: CalendarDay
+    height: number
+    gender: Gender
 }
 
 export type WeightEntry = {
@@ -36,6 +44,7 @@ export type FamilyContextType = {
     changeFamilyName: (name:string) => void
     addWeight: (id: string, date: string, weight: number) => void
     deleteWeight: (id: string, date: string) => void
+    makeCalorieGoal: (id: string, calorieGoal: number) => void
 }
 
 export type FamilyAction =

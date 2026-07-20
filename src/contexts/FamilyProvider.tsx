@@ -97,6 +97,8 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
             payload:name})
     }
 
+
+
     const addWeight = (id: string, date: string, weight: number) => {
         const member = state.familyMembers.find(m => m.id === id);
         if (!member) return;
@@ -113,6 +115,12 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
         dispatch({ type: "CHANGE_MEMBER", payload: { id, updates: { weightHistory: newMap } } });
     }
 
+    const makeCalorieGoal = (id: string, calorieGoal: number) => {
+        const member = state.familyMembers.find(m => m.id === id);
+        if (!member) return;
+        dispatch({ type: "CHANGE_MEMBER", payload: { id, updates: { calorieGoal } } });
+    }
+
 
     return (
         <FamilyContext.Provider
@@ -124,6 +132,7 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
                 changeFamilyName,
                 addWeight,
                 deleteWeight,
+                makeCalorieGoal,
             }}
         >
             {children}

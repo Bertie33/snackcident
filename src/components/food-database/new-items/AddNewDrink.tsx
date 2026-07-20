@@ -64,9 +64,9 @@ export function AddNewDrink() {
                     <DialogHeader>
                         <DialogTitle>Add New Drink</DialogTitle>
                     </DialogHeader>
-                    <div className="grid gap-4">
+                    <div className="grid gap-4 my-3">
                         <div className="grid gap-3">
-                            <Label htmlFor="item-1">Drink: </Label>
+                            <Label htmlFor="item-1">Drink Name: </Label>
                             <Input id="drink-1" value={item.name} name="name" onChange={handleChange}/>
                             {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
                         </div>

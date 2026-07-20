@@ -4,6 +4,7 @@ import {AddNewMember} from "@/components/FamilySettings/AddNewMember";
 import {AddFamilyName} from "@/components/FamilySettings/AddFamilyName";
 import {DeleteFamilyMember} from "@/components/FamilySettings/DeleteFamilyMember";
 import {ChangeFamilyMember} from "@/components/FamilySettings/ChangeFamilyMember";
+import {CalorieCalculator} from "@/components/FamilySettings/CalorieCalculator";
 
 
 export function FamilySettings() {
@@ -23,6 +24,7 @@ export function FamilySettings() {
                 <ChangeFamilyMember/>
                 <DeleteFamilyMember/>
                 <AddFamilyName/>
+                <CalorieCalculator/>
             </div>
         </div>
     )

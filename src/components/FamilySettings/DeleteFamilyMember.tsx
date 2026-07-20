@@ -7,6 +7,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import {useFamilyContext} from "@/contexts/FamilyProvider";
+import { Popover, PopoverTrigger, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle} from "../ui/popover";
 
 export function DeleteFamilyMember() {
 
@@ -24,9 +25,32 @@ export function DeleteFamilyMember() {
                         <div key={member.id} className="flex justify-between items-center">
                             <span>{member.name}</span>
                             <DialogClose asChild>
-                                <Button  variant="destructive" onClick={() => removeMember(member.id)}>
-                                    Delete
-                                </Button>
+                                <Popover>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <Button variant="destructive">
+                                                Delete
+                                            </Button>
+                                        </PopoverTrigger>
+
+                                        <PopoverContent>
+                                            <PopoverHeader>
+                                                <PopoverTitle>
+                                                    Are you sure you want to delete {member.name}?
+                                                </PopoverTitle>
+
+                                                <DialogClose asChild>
+                                                    <Button
+                                                        variant="destructive"
+                                                        onClick={() => removeMember(member.id)}
+                                                    >
+                                                        Yes
+                                                    </Button>
+                                                </DialogClose>
+                                            </PopoverHeader>
+                                        </PopoverContent>
+                                    </Popover>
+                                </Popover>
                             </DialogClose>
                         </div>
                     ))}

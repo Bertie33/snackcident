@@ -21,7 +21,7 @@ export function DrinkBarTable() {
             renderRow={(item, onEdit) => (
                 <TableRow key={item.id}>
                     <TableCell className="font-medium">{item.name}</TableCell>
-                    <TableCell>{item.calories} per 100 ml</TableCell>
+                    <TableCell>{item.calories} cal per 100 ml</TableCell>
                     <TableCell className="text-right">
                         <ActionDropdown
                             onEdit={() => onEdit(item.id)}

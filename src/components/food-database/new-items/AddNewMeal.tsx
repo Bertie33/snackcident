@@ -117,9 +117,9 @@ export function AddNewMeal() {
                         <DialogTitle>Add New Meal</DialogTitle>
                     </DialogHeader>
                     <form onSubmit={handleSubmit}>
-                        <div className="grid gap-4">
+                        <div className="grid gap-4 m-3">
                             <div className="grid gap-3">
-                                <Label>Meal:</Label>
+                                <Label>Meal Name:</Label>
                                 <Input
                                     name="name"
                                     value={item.name}
@@ -131,7 +131,6 @@ export function AddNewMeal() {
                             <div className="flex flex-col gap-3 max-h-40 overflow-y-auto border rounded-md p-2">
                                 {item.ingredients.length === 0 && (
                                     <span className="text-sm text-muted-foreground">
-                                        No ingredients added
                                     </span>
                                 )}
 
@@ -161,6 +160,8 @@ export function AddNewMeal() {
                                                 }
                                             />
 
+
+
                                             <span className="text-sm text-muted-foreground">
                                                 {details?.unit}
                                             </span>
@@ -183,13 +184,9 @@ export function AddNewMeal() {
                             <div onClick={(e) => e.stopPropagation()}>
                                 <MealComboBox onSelect={handleAddIngredient}/>
                             </div>
-                            <Button
-                                type="button"
-                                variant="outline"
-                                onClick={() => setAddIngredientOpen(true)}
-                            >
-                                Add New Ingredient
-                            </Button>
+
+
+
 
 
                             <div className="grid gap-3">
@@ -202,6 +199,14 @@ export function AddNewMeal() {
                                 />
                                 {errors.portions && <p className="text-red-500 text-sm">{errors.portions}</p>}
                             </div>
+
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => setAddIngredientOpen(true)}
+                            >
+                                Add Missing Ingredient to Database
+                            </Button>
 
                             {item.portions > 0 && item.ingredients.length > 0 && (
                                 <div className="grid gap-3 p-3 bg-muted rounded-md">
@@ -217,7 +222,7 @@ export function AddNewMeal() {
                             )}
                         </div>
 
-                        <DialogFooter>
+                        <DialogFooter >
                             <Button type="submit">Add</Button>
 
                             <DialogClose asChild>

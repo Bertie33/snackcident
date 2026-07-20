@@ -79,9 +79,9 @@ export function AddNewIngredient({open, onClose}: AddNewIngredientProps) {
                         <DialogTitle>Add New Ingredient</DialogTitle>
                     </DialogHeader>
 
-                    <div className="grid gap-4">
+                    <div className="grid gap-4 my-3">
                         <div className="grid gap-3">
-                            <Label htmlFor="ingredient">Ingredient</Label>
+                            <Label htmlFor="ingredient">Ingredient Name:</Label>
                             <Input
                                 id="ingredient"
                                 name="name"

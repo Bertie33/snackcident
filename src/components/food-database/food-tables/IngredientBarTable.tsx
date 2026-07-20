@@ -20,7 +20,7 @@ export function IngredientBarTable() {
             renderRow={(item, onEdit) => (
                 <TableRow key={item.id}>
                     <TableCell className="font-medium">{item.name}</TableCell>
-                    <TableCell>{item.caloriesPer100} per 100 {item.unit}</TableCell>
+                    <TableCell>{item.caloriesPer100} cal per 100 {item.unit}</TableCell>
                     <TableCell className="text-right">
                         <ActionDropdown
                             onEdit={() => onEdit(item.id)}

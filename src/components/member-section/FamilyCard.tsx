@@ -2,14 +2,13 @@ import {Button} from "@/components/ui/button";
 import {ArrowLeftIcon, ArrowRightIcon, Trash} from "lucide-react"
 import {Progress} from "@/components/ui/progress";
 import {AddingFoodToUser} from "@/components/member-section/AddingFoodToUser";
-import {accentColors, avatarColors, gradients} from "@/models/Colours";
+import {accentColors, gradients} from "@/models/Colours";
 import {AddingWeightToUser} from "@/components/member-section/AddingWeightToUser";
 import {CalendarDay, CalorieEntry, WeightEntry} from "@/models/familyModels";
 
 
 export default function FamilyCard({ name, index, id, weightHistory, calorieHistory, calorieGoal, weightGoal  }: { name: string, index: number, id: string, weightHistory: Map<string, WeightEntry>, calorieHistory: Map<CalendarDay,CalorieEntry>, calorieGoal: number, weightGoal: number })  {
     const gradient = gradients[index % gradients.length]
-    const avatarColor = avatarColors[index % avatarColors.length]
     const accentColor = accentColors[index % accentColors.length]
     const latestEntry = [...weightHistory.entries()]
         .sort(([dayA], [dayB]) =>
@@ -23,7 +22,7 @@ export default function FamilyCard({ name, index, id, weightHistory, calorieHist
             <div className="font-bold text-xl gap-3 mb-4">
                 <h1>{name}</h1>
             </div>
-            <p>Only {Math.abs((latestEntry?.weight)-weightGoal)?? '—'}kg to go! {latestEntry?.weight}/{weightGoal} </p>
+            <p>Only {latestEntry ? Math.abs((latestEntry.weight)-weightGoal) : '—'}kg to go! {latestEntry?.weight}/{weightGoal} </p>
             <div className={`${accentColor} h-1 rounded-full mb-4 mt-2`} />
             <div className="flex items-center justify-center gap-3 mb-4">
                 <AddingWeightToUser name={name} id={id} />

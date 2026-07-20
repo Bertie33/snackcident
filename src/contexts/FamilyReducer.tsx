@@ -28,16 +28,19 @@ export default function FamilyReducer(
                 ...state,
                 familyMembers: state.familyMembers.map((member) =>
                     member.id === action.payload.id
-                        ? { ...member, ...action.payload.updates }
+                        ? {...member, ...action.payload.updates}
                         : member
                 ),
             };
 
+
         case "SET_FAMILY_NAME":
-            return{
+            return {
                 ...state,
                 familyName: action.payload,
             };
+
+
 
         default:
             return state;

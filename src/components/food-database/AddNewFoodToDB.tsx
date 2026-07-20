@@ -29,7 +29,7 @@ export function AddNewFoodToDB() {
                     <DialogHeader>
                         <DialogTitle>Add New</DialogTitle>
                     </DialogHeader>
-                    <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-3">
+                    <div className="grid gap-2 ">
                         <Button onClick={() => setIngredientOpen(true)}>Add New Ingredient</Button>
                         <AddNewIngredient
                             open={ingredientOpen}
