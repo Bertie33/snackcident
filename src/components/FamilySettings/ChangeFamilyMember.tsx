@@ -2,7 +2,7 @@
 
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
-import {Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger} from "@/components/ui/dialog";
+import {Dialog, DialogContent, DialogFooter, DialogTrigger} from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
 import {useFamilyContext} from "@/contexts/FamilyProvider";
 import React, {useState} from "react";
@@ -10,7 +10,6 @@ import {Gender} from "@/models/familyModels";
 import {Calendar} from "@/components/ui/calendar";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {CalorieCalculator} from "@/components/FamilySettings/CalorieCalculator";
 
 export function ChangeFamilyMember() {
 
@@ -23,7 +22,7 @@ export function ChangeFamilyMember() {
         calorieGoal: 0,
         age: "",
         height: 0,
-        gender: Gender.PreferNotToSay,
+        gender: Gender.Male,
     });
     const {state, changeMember} = useFamilyContext();
 
@@ -151,7 +150,7 @@ export function ChangeFamilyMember() {
                                 if (selectedId) {
                                     changeMember(selectedId, editedMember);
                                     setSelectedId(null);
-                                    setEditedMember({ name: "", weightGoal: 0, calorieGoal: 0, age: "", height: 0, gender: Gender.PreferNotToSay });
+                                    setEditedMember({ name: "", weightGoal: 0, calorieGoal: 0, age: "", height: 0, gender: Gender.Male });
                                     setDate(undefined);
                                 }
                             }}

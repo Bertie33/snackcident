@@ -2,7 +2,6 @@
 import {Button} from "@/components/ui/button"
 import {
     Dialog,
-    DialogClose,
     DialogContent,
     DialogFooter,
     DialogHeader,
@@ -18,22 +17,24 @@ import {Gender} from "@/models/familyModels";
 import {Calendar} from "@/components/ui/calendar";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem,ComboboxList} from "@/components/ui/combobox";
-import {InputGroup, InputGroupAddon, InputGroupInput} from "@/components/ui/input-group";
-import {CalorieCalculator} from "@/components/FamilySettings/CalorieCalculator";
+import {InputGroup, InputGroupInput} from "@/components/ui/input-group";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 export function AddNewMember() {
 
     const context = useFamilyContext();
     const [date, setDate] = React.useState<Date | undefined>(undefined)
     const [open, setOpen] = React.useState(false)
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [error, setError] = useState("");
 
     const [member, setMember] = useState({
         name: "",
         weightGoal: 0,
-        calorieGoal: 0,
+        calorieGoal: undefined as number | undefined,
         age: "",
         height: 0,
-        gender: Gender.PreferNotToSay,
+        gender: Gender.Male,
     })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,18 +45,44 @@ export function AddNewMember() {
         } else if (name === "weightGoal") {
             setMember(prev => ({...prev, weightGoal: Number(value)}));
         } else if (name === "calorieGoal") {
-            setMember(prev => ({...prev, calorieGoal: Number(value)}));
+            setMember(prev => ({
+                ...prev,
+                calorieGoal: value === "" ? undefined : Number(value),
+            }));
         } else if (name === "age") {
             setMember(prev => ({...prev, age: String(value)}));
         } else if (name === "height") {
             setMember(prev => ({...prev, height: Number(value)}));
-        } else if (name === "gender") {
-            setMember(prev => ({...prev, gender: value as Gender}));
         }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!member.name.trim()) {
+            setError("Name is required");
+            return;
+        }
+
+
+        if (member.weightGoal <= 0) {
+            setError("Please enter a valid weight goal");
+            return;
+        }
+
+        if (!member.age) {
+            setError("Please select a date of birth");
+            return;
+        }
+
+        if (member.height <= 0) {
+            setError("Please enter a valid height");
+            return;
+        }
+
+
+        setError("");
+
         context.addMember({
             id: uuid(),
             name: member.name,
@@ -68,12 +95,22 @@ export function AddNewMember() {
             gender: member.gender,
         });
 
-        setMember({name: "", weightGoal: 0, calorieGoal: 0, age: "", height: 0, gender: Gender.PreferNotToSay});
+        setDate(undefined);
+        setError("");
+        setDialogOpen(false);
+
+        setMember({
+            name: "",
+            weightGoal: 0,
+            calorieGoal: undefined,
+            age: "",
+            height: 0,
+            gender: Gender.Male,
+        });
     };
 
-
     return (
-        <Dialog>
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
                 <Button variant="default">Add New Member</Button>
             </DialogTrigger>
@@ -84,7 +121,13 @@ export function AddNewMember() {
                     </DialogHeader>
                     <div className="grid gap-4 my-3">
                         <Label htmlFor="name-1">Name: </Label>
-                        <Input id="member-1" value={member.name} name="name" onChange={handleChange}/>
+                        <Input
+                            id="member-1"
+                            value={member.name}
+                            name="name"
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
                     <div className="grid gap-4 my-3">
                         <Label htmlFor="weight-goal-1">Weight Goal: </Label>
@@ -93,16 +136,18 @@ export function AddNewMember() {
                             name="weightGoal"
                             value={member.weightGoal}
                             onChange={handleChange}
+                            required
                         />
                     </div>
                     <div className="grid gap-4 my-3">
-                        <Label htmlFor="cal-goal-1">Calorie Goal: </Label>
+                        <Label htmlFor="cal-goal-1">Calorie Goal : </Label>
                         <Input
                             type="number"
                             name="calorieGoal"
-                            value={member.calorieGoal}
+                            value={member.calorieGoal ?? ""}
                             onChange={handleChange}
                         />
+                        <div className="text-xs">(Optionally you can use the calorie calculator after you have added the member and made at least one weight entry!)</div>
                     </div>
                     <div className="grid gap-4 my-3">
                         <Label htmlFor="age-1">Date of Birth: </Label>
@@ -124,6 +169,7 @@ export function AddNewMember() {
                                         if (date) setMember(prev => ({...prev, age: date.toISOString().split("T")[0]}))
                                         }
                                     }
+
                                 />
                             </PopoverContent>
                         </Popover>
@@ -131,32 +177,41 @@ export function AddNewMember() {
                     <div className="grid gap-4 my-3">
                         <Label htmlFor="height-1">Height in cm: </Label>
                         <InputGroup>
-                            <InputGroupInput type="number" name="height" value={member.height} onChange={handleChange} />
+                            <InputGroupInput
+                                type="number"
+                                name="height"
+                                value={member.height}
+                                onChange={handleChange}
+                                required
+                            />
                         </InputGroup>
                     </div>
                     <div className="grid gap-4 my-3">
                         <Label htmlFor="gender-1">Gender: </Label>
-                        <Combobox  items={Object.values(Gender)}
-                                   value={member.gender}
-                                   onValueChange={(val) => setMember(prev => ({ ...prev, gender: val as Gender }))}>
-                            <ComboboxInput placeholder="Select Gender" />
-                            <ComboboxContent>
-                                <ComboboxEmpty>No gender found.</ComboboxEmpty>
-                                <ComboboxList>
-                                    {(item) => (
-                                        <ComboboxItem key={item} value={item}>
-                                            {item}
-                                        </ComboboxItem>
-                                    )}
-                                </ComboboxList>
-                            </ComboboxContent>
-                        </Combobox>
+                        <Select
+                            value={member.gender}
+                            onValueChange={(val) =>
+                                setMember(prev => ({
+                                    ...prev,
+                                    gender: val as Gender
+                                }))
+                            }
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select gender" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {Object.values(Gender).map((g) => (
+                                    <SelectItem key={g} value={g}>{g}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                     </div>
-
+                    {error && (
+                        <p className="text-sm text-red-500">{error}</p>
+                    )}
                     <DialogFooter>
-                        <DialogClose asChild>
                             <Button type="submit">Add</Button>
-                        </DialogClose>
                     </DialogFooter>
                 </form>
             </DialogContent>

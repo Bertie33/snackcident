@@ -16,7 +16,7 @@ export type FamilyMember = {
     name:string
     weightHistory: Map<CalendarDay,WeightEntry>
     calorieHistory: Map<CalendarDay,CalorieEntry>
-    calorieGoal: number
+    calorieGoal?: number
     weightGoal: number
     age: CalendarDay
     height: number

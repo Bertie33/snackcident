@@ -19,12 +19,12 @@ export function FamilySettings() {
             <p className="flex flex-col items-center m-3 gap-4">
                 {state.familyMembers.map(member => member.name).join(", ")}
             </p>
-            <div className="flex gap-x-2">
+            <div className="grid gap-2">
                 <AddNewMember/>
+                <CalorieCalculator/>
                 <ChangeFamilyMember/>
                 <DeleteFamilyMember/>
                 <AddFamilyName/>
-                <CalorieCalculator/>
             </div>
         </div>
     )
