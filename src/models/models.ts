@@ -1,6 +1,7 @@
 export type Unit = "g" | "ml"
 
-export interface Ingredient {
+
+export type Ingredient ={
     id: string
     name: string
     unit: Unit
@@ -13,7 +14,7 @@ export type MealIngredient = {
     amount: number
 }
 
-export interface Meal {
+export type Meal ={
     id: string
     name: string
     portions: number
@@ -21,7 +22,7 @@ export interface Meal {
     ingredients: MealIngredient[]
 }
 
-export interface Drink {
+export type Drink ={
     id: string
     name: string
     calories: number
@@ -87,3 +88,28 @@ export type FoodAction =
         ingredientId: string
     }
 }
+
+export type EditTarget = {
+    memberId: string;
+    memberName: string;
+    date: string;
+    weight: number;
+};
+
+export type EditWeightDialogProps = {
+    target: EditTarget | null;
+    onClose: () => void;
+    onSave: (weight: number) => void;
+    onDelete: () => void
+};
+
+export type WeightActiveDotProps = {
+    cx?: number;
+    cy?: number;
+    fill?: string;
+    stroke?: string;
+    value?: number;
+    payload: {
+        date: number;
+    };
+};

@@ -24,7 +24,7 @@ import {Unit} from "@/models/models";
 
 export default function EditIngredient({id, close}: { id: string; close: () => void }) {
 
-    let {state} = useFoodContext();
+    let {state} = useFood();
     const {changeIngredient} = useFood();
     const [errors, setErrors] = useState<{ name?: string; calories?: string }>({});
 

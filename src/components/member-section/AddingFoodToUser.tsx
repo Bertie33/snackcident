@@ -13,29 +13,25 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 
-export function AddingFoodToUser() {
+export function AddingFoodToUser({ name, id }: { name: string, id: string }) {
     return (
         <Dialog>
             <form>
                 <DialogTrigger asChild>
-                    <Button variant="outline">Add +</Button>
+                    <Button variant="outline">Add Food +</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Adding to "insert name"</DialogTitle>
+                        <DialogTitle>Add food to {name}</DialogTitle>
                     </DialogHeader>
                     <div className="grid gap-4">
                         <div className="grid gap-3">
-                            <Label htmlFor="item-1">Item: </Label>
+                            <Label htmlFor="item-1">Food: </Label>
                             <Input id="food-1" name="food" defaultValue="" />
                         </div>
                         <div className="grid gap-3">
-                            <Label htmlFor="quantity-1">Quantity</Label>
+                            <Label htmlFor="quantity-1">Amount g/ml:</Label>
                             <Input id="quantity-1" name="quantity" defaultValue="" />
-                        </div>
-                        <div className="grid gap-3">
-                            <Label htmlFor="unit-1">Unit</Label>
-                            <Input id="unit-1" name="unit" defaultValue="" />
                         </div>
                     </div>
                     <DialogFooter>

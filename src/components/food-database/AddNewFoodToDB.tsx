@@ -23,13 +23,13 @@ export function AddNewFoodToDB() {
         <Dialog>
             <form>
                 <DialogTrigger asChild>
-                    <Button variant="outline">Add New</Button>
+                    <Button variant="default">Add New</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
                         <DialogTitle>Add New</DialogTitle>
                     </DialogHeader>
-                    <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-3">
+                    <div className="grid gap-2 ">
                         <Button onClick={() => setIngredientOpen(true)}>Add New Ingredient</Button>
                         <AddNewIngredient
                             open={ingredientOpen}

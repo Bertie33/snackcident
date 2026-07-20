@@ -1,12 +1,12 @@
 "use client";
-import { useFood, useFoodContext } from "@/contexts/FoodProvider";
+import { useFood } from "@/contexts/FoodProvider";
 import { BaseBarTable } from "@/components/food-database/food-tables/BaseBarTable";
 import EditMeal from "@/components/food-database/food-tables/EditMeal";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { ActionDropdown } from "@/components/food-database/food-tables/ActionDropdown";
 
 export function MealBarTable() {
-    const { state } = useFoodContext();
+    const { state } = useFood();
     const { removeMeal } = useFood();
     const items = state.meals;
 

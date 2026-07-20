@@ -16,7 +16,7 @@ import {Input} from "@/components/ui/input";
 
 export default function EditDrink({id, close}: { id: string; close: () => void }) {
 
-    let {state} = useFoodContext();
+    let {state} = useFood();
     const {changeDrink} = useFood();
     const [errors, setErrors] = useState<{ name?: string; calories?: string }>({});
 

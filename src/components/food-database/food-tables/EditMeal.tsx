@@ -11,7 +11,7 @@ import {AddNewIngredient} from "@/components/food-database/new-items/AddNewIngre
 
 export default function EditMeal({id, close}: { id: string; close: () => void }) {
 
-    let {state} = useFoodContext();
+    let {state} = useFood();
     const {changeMeal} = useFood();
     const [addIngredientOpen, setAddIngredientOpen] = useState(false);
     const [errors, setErrors] = useState<{ name?: string; portions?: string }>({});

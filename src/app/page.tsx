@@ -1,22 +1,30 @@
+"use client";
+import {useFamilyContext} from "@/contexts/FamilyProvider";
 import FamilyCard from "@/components/member-section/FamilyCard";
-
-import FoodBar from "@/components/food-database/FoodBar";
 import {FoodProvider} from "@/contexts/FoodProvider";
 
+
 export default function Home() {
+
+    const {state} = useFamilyContext();
+
     return (
         <FoodProvider>
-        <div className="m-10">
-            <div className="">
-                <FoodBar/>
-            </div>
-            <div className="w-full h-auto flex items-center justify-center gap-2  mx-auto rounded-xl overflow-hidden">
-                <div className="flex gap-5 p-10">
-                    <FamilyCard/>
-                    <FamilyCard/>
+            <div className="max-w-5xl mx-auto px-6 py-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {state.familyMembers.map((member, index) => (
+                        <FamilyCard
+                            key={member.id}
+                            id={member.id}
+                            name={member.name}
+                            index={index}
+                            weightHistory={member.weightHistory}
+                            calorieHistory={member.calorieHistory}
+                            calorieGoal={member.calorieGoal}
+                            weightGoal={member.weightGoal}/>
+                    ))}
                 </div>
             </div>
-        </div>
         </FoodProvider>
 
     );
